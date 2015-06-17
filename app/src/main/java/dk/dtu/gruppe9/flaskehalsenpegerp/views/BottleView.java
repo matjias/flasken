@@ -1,13 +1,16 @@
 package dk.dtu.gruppe9.flaskehalsenpegerp.views;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.view.Display;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+
+import java.util.concurrent.ScheduledFuture;
 
 import dk.dtu.gruppe9.flaskehalsenpegerp.R;
 
@@ -15,51 +18,66 @@ import dk.dtu.gruppe9.flaskehalsenpegerp.R;
 public class BottleView extends View {
 
     static final double BOTTLE_SCALE = 0.3;
-    int width, height, posX, posY, rotate;
+    static final int REFRESH_RATE = 200;
+    int width, height, posX, posY;
+    float rotate, canRot;
     Bitmap bottleBitmap, scaledBottleBitmap;
     Paint painter;
     Context context;
 
-    public BottleView(Context context, int displayWidth, int displayHeight, int posX, int posY){
+    public BottleView(Context context, int posX, int posY){
 
         super(context);
         this.context = context;
 
         bottleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bottle);
 
-        setRelativeSize(displayWidth, displayHeight);
+        setRelativeSize();
 
         scaledBottleBitmap = Bitmap.createScaledBitmap(bottleBitmap, width, height, false);
 
-        this.posX = posX + displayWidth/2 - scaledBottleBitmap.getWidth()/2;
-        this.posY = posY + displayHeight/2 - scaledBottleBitmap.getHeight()/2;
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    private void setRelativeSize(int displayWidth, int displayHeight){
-
-
-
-
+    private void setRelativeSize(){
 
         width = (int) (bottleBitmap.getWidth() * BOTTLE_SCALE);
         height = (int) (bottleBitmap.getHeight() * BOTTLE_SCALE);
         System.out.println(width + " " + height);
     }
 
+    public boolean intersects(float x, float y){
+        return true;
+        //return (x < posX + scaledBottleBitmap.getWidth()/2
+          //      && x > posX - scaledBottleBitmap.getWidth()/2
+            //    && y < posY + scaledBottleBitmap.getHeight()/2
+              //  && y > posY - scaledBottleBitmap.getHeight()/2);
+    }
+/*
+    public void rotation(float rot){
 
+        canRot += rot;
+        postInvalidate();
+        System.out.println(canRot);
+    }*/
 
     @Override
     protected void onDraw(Canvas canvas) {
 
         canvas.save();
 
-        rotate += rotate;
-
-        canvas.rotate(rotate, posX, posY);
-
-        canvas.drawBitmap(scaledBottleBitmap, posX, posY, painter);
+        canvas.drawBitmap(scaledBottleBitmap, posX - scaledBottleBitmap.getWidth()/2, posY - scaledBottleBitmap.getHeight()/2, painter);
 
         canvas.restore();
 
+    }
+
+    public float getCenterX(){
+        return posX;
+    }
+
+    public float getCenterY(){
+        return posY;
     }
 }
