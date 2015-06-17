@@ -53,13 +53,6 @@ public class BottleView extends View {
             //    && y < posY + scaledBottleBitmap.getHeight()/2
               //  && y > posY - scaledBottleBitmap.getHeight()/2);
     }
-/*
-    public void rotation(float rot){
-
-        canRot += rot;
-        postInvalidate();
-        System.out.println(canRot);
-    }*/
 
     @Override
     protected void onDraw(Canvas canvas) {

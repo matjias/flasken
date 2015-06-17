@@ -34,6 +34,7 @@ public class GameActivity extends Activity {
     BottleView bottleView;
     int centerX, centerY;
     Random rand = new Random();
+    final int ROTATE_RATE_DELAY = 40;
 
     GestureDetector gestureDetector;
 
@@ -50,8 +51,6 @@ public class GameActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         frame = (FrameLayout) findViewById(R.id.frame);
-
-        flingSpeed = 1440f;
 
 
         // Sets bottle size according to screen size.
@@ -89,9 +88,36 @@ public class GameActivity extends Activity {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
+                System.out.println("x: " + velocityX);
+                System.out.println("y: " + velocityY);
+                System.out.println("rot: " + bottleView.getRotation()%360f);
+
+                float tempRot = 0;
+
+                if(bottleView.intersects(e1.getX(),e1.getY())){
+
+                    if(e1.getY() > centerY) velocityX *= -1;
+                    if(e1.getX() < centerX) velocityY *= -1;
 
 
+                    float angleRad = (float)Math.toRadians(360f - bottleView.getRotation() % 360f);
 
+                    System.out.println("angle: " + angleRad);
+
+                    System.out.println("sin: " + Math.sin(angleRad));
+                    System.out.println("cos: " + Math.cos(angleRad));
+
+                    float speedY = velocityY / ROTATE_RATE_DELAY * (float)Math.sin(angleRad);
+                    float speedX = velocityX / ROTATE_RATE_DELAY * (float)Math.cos(angleRad);
+
+                    System.out.println("speed X: " + speedX);
+                    System.out.println("speed Y: " + speedY);
+
+                    tempRot = (float)Math.sqrt(speedX*speedX + speedY*speedY);
+                    System.out.println(tempRot);
+                }
+
+                startRotation(tempRot);
                 return false;
             }
         });
