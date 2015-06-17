@@ -17,8 +17,7 @@ import dk.dtu.gruppe9.flaskehalsenpegerp.R;
 
 public class BottleView extends View {
 
-    static final double BOTTLE_SCALE = 0.3;
-    static final int REFRESH_RATE = 200;
+    static final double BOTTLE_SCALE = 0.5;
     int width, height, posX, posY;
     float rotate, canRot;
     Bitmap bottleBitmap, scaledBottleBitmap;

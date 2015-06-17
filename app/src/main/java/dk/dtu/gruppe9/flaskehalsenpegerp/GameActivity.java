@@ -32,7 +32,7 @@ public class GameActivity extends Activity {
 
     FrameLayout frame;
     BottleView bottleView;
-    int bottleWidth, bottleHeight, centerX, centerY;
+    int centerX, centerY;
     Random rand = new Random();
 
     GestureDetector gestureDetector;
@@ -51,7 +51,7 @@ public class GameActivity extends Activity {
 
         frame = (FrameLayout) findViewById(R.id.frame);
 
-
+        flingSpeed = 1440f;
 
 
         // Sets bottle size according to screen size.
@@ -80,12 +80,20 @@ public class GameActivity extends Activity {
 
                 if(bottleView.intersects(e.getX(), e.getY())){
 
-                    startRotation();
+                    startRotation(1440);
                     return true;
                 }
                 return false;
             }
 
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+
+
+
+                return false;
+            }
         });
 
     }
@@ -99,10 +107,10 @@ public class GameActivity extends Activity {
 
     }
 
-    private void startRotation(){
+    private void startRotation(float flingSpeed){
 
         float rotStart = bottleView.getRotation() % 360f;
-        float rotEnd = 1440f + rand.nextFloat() * 360f;
+        float rotEnd = flingSpeed + rand.nextFloat() * 360f;
 
         ObjectAnimator bottleAnim = ObjectAnimator.ofFloat(bottleView, "rotation", rotStart, rotEnd);
 
