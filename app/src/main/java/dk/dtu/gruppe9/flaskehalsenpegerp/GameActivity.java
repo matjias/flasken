@@ -79,12 +79,12 @@ public class GameActivity extends Activity {
 
                 if(bottleView.intersects(e.getX(), e.getY())){
 
-                    startRotation(1440);
+                    startRotation(1080f + rand.nextFloat() * 360f);
                     return true;
                 }
                 return false;
             }
-
+            /*
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
@@ -96,8 +96,10 @@ public class GameActivity extends Activity {
 
                 if(bottleView.intersects(e1.getX(),e1.getY())){
 
-                    if(e1.getY() > centerY) velocityX *= -1;
-                    if(e1.getX() < centerX) velocityY *= -1;
+                    float rotationDeg = bottleView.getRotation();
+
+                    if((rotationDeg % 360f) > 90 || (rotationDeg % 360f) < 270) velocityY *= -1;
+                    if((rotationDeg % 360f) >=0 && (rotationDeg % 360f) < 180) velocityX *= -1;
 
 
                     float angleRad = (float)Math.toRadians(360f - bottleView.getRotation() % 360f);
@@ -107,19 +109,21 @@ public class GameActivity extends Activity {
                     System.out.println("sin: " + Math.sin(angleRad));
                     System.out.println("cos: " + Math.cos(angleRad));
 
-                    float speedY = velocityY / ROTATE_RATE_DELAY * (float)Math.sin(angleRad);
-                    float speedX = velocityX / ROTATE_RATE_DELAY * (float)Math.cos(angleRad);
+                    float speedY = velocityY / ROTATE_RATE_DELAY * (float)Math.cos(angleRad);
+                    float speedX = velocityX / ROTATE_RATE_DELAY * (float)Math.sin(angleRad);
 
                     System.out.println("speed X: " + speedX);
                     System.out.println("speed Y: " + speedY);
 
-                    tempRot = (float)Math.sqrt(speedX*speedX + speedY*speedY);
-                    System.out.println(tempRot);
+                    //
+                    tempRot = (float)speedX + speedY;
+
+                    System.out.println("temp " + tempRot);
                 }
 
                 startRotation(tempRot);
                 return false;
-            }
+            }*/
         });
 
     }
@@ -133,10 +137,9 @@ public class GameActivity extends Activity {
 
     }
 
-    private void startRotation(float flingSpeed){
+    private void startRotation(float rotEnd){
 
         float rotStart = bottleView.getRotation() % 360f;
-        float rotEnd = flingSpeed + rand.nextFloat() * 360f;
 
         ObjectAnimator bottleAnim = ObjectAnimator.ofFloat(bottleView, "rotation", rotStart, rotEnd);
 
