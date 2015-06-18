@@ -15,7 +15,7 @@ public class BottleView extends View {
     static final double BOTTLE_SCALE = 0.5;
     int width, height, posX, posY;
     Bitmap bottleBitmap, scaledBottleBitmap;
-    Paint painter;
+    Paint painter = new Paint();
     Context context;
 
     public BottleView(Context context, int posX, int posY){

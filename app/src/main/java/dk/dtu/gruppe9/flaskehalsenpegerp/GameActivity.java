@@ -1,40 +1,34 @@
 package dk.dtu.gruppe9.flaskehalsenpegerp;
 
 
-import android.animation.ArgbEvaluator;
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 
 import java.util.Random;
 
 import dk.dtu.gruppe9.flaskehalsenpegerp.views.BottleView;
+import dk.dtu.gruppe9.flaskehalsenpegerp.views.PlayerView;
 
 
 public class GameActivity extends Activity {
 
     FrameLayout frame;
     BottleView bottleView;
-    int centerX, centerY;
+    int centerX, centerY, playerWon;
     Random rand = new Random();
     final int ROTATE_RATE_DELAY = 40;
+    PlayerView[] players;
 
     GestureDetector gestureDetector;
 
@@ -67,7 +61,36 @@ public class GameActivity extends Activity {
         // Adds bottle to Game frame
         frame.addView(bottleView);
 
+        setPlayers(6);
+
         gestures();
+    }
+
+    private void setPlayers(int playerAmount){
+
+        players = new PlayerView[playerAmount];
+
+
+
+        for(int i = 0; i < players.length; i++){
+
+            // Calculates placement of players according to an Ellipse function
+            int posX = (int)(centerX + centerX*1.5 / 2 * Math.cos((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
+            int posY = (int)(centerY + centerY*1.5 / 2 * Math.sin((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
+
+            players[i] = new PlayerView(getApplicationContext(), posX, posY, ""+(i+1));
+            frame.addView(players[i]);
+
+        }
+
+    }
+
+    @Override
+    protected void onPause() {
+
+
+
+        super.onPause();
     }
 
     private void gestures() {
@@ -146,8 +169,46 @@ public class GameActivity extends Activity {
         bottleAnim.setDuration(2000);
         bottleAnim.setInterpolator(new DecelerateInterpolator());
 
+        players[playerWon].setWin(false);
+        players[playerWon].invalidate();
+
         bottleAnim.start();
 
+        bottleAnim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                choosePlayerWin();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
     }
+
+    private void choosePlayerWin(){
+
+        double bottleAngle = Math.toRadians(bottleView.getRotation() % 360f);
+
+        playerWon = (int)((bottleAngle/(2 * Math.PI / players.length)));
+
+        System.out.println("Vinder " + playerWon);
+        players[playerWon].setWin(true);
+        players[playerWon].invalidate();
+
+    }
+
 
 }
