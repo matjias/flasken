@@ -27,26 +27,26 @@
         android:textSize="40sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#BB000000" />
+        android:textColor="#FFFFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/playerAmount"
         android:text="4"
-        android:textSize="40sp"
+        android:textSize="60sp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#BB000000" />
+        android:textColor="#FFFFFFFF" />
 
     <Button
         android:layout_width="60sp"
         android:layout_height="wrap_content"
         android:text="-"
         android:id="@+id/decrease"
-        android:textSize="40sp"
+        android:textSize="60sp"
         android:background="@null"
-        android:layout_alignTop="@+id/playerAmount"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/setPlayers"
         android:layout_alignStart="@+id/setPlayers"
         android:textColor="#FFFFFFFF" />
@@ -58,7 +58,7 @@
         android:id="@+id/increase"
         android:textSize="40sp"
         android:background="@null"
-        android:layout_alignTop="@+id/playerAmount"
+        android:layout_centerVertical="true"
         android:layout_alignRight="@+id/setPlayers"
         android:layout_alignEnd="@+id/setPlayers"
         android:textColor="#FFFFFFFF" />
@@ -74,16 +74,5 @@
         android:layout_marginBottom="40dp"
         android:textColor="#FFFFFFFF"
         android:background="@null" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="____"
-        android:id="@+id/textView"
-        android:textSize="40sp"
-        android:layout_alignTop="@+id/playerAmount"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textColor="#BB000000" />
 
 </RelativeLayout>
