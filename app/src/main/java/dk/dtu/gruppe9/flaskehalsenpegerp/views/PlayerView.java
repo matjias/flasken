@@ -55,7 +55,7 @@ public class PlayerView extends View{
     public void setCustomImage(Bitmap customImage){
 
 
-        hasCustomImage = true;
+        hasCustomImage = false;
     }
 
     private void setRelativeSize(){

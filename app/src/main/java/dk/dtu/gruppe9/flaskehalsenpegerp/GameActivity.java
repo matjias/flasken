@@ -4,6 +4,7 @@ package dk.dtu.gruppe9.flaskehalsenpegerp;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -26,6 +27,7 @@ public class GameActivity extends Activity {
     FrameLayout frame;
     BottleView bottleView;
     int centerX, centerY, playerWon;
+    final int GET_PLAYERS = 1;
     Random rand = new Random();
     final int ROTATE_RATE_DELAY = 40;
     PlayerView[] players;
@@ -61,9 +63,18 @@ public class GameActivity extends Activity {
         // Adds bottle to Game frame
         frame.addView(bottleView);
 
-        setPlayers(6);
+        Intent menuIntent = new Intent(GameActivity.this, MenuActivity.class);
+        startActivityForResult(menuIntent, GET_PLAYERS);
 
         gestures();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode == RESULT_OK && requestCode == GET_PLAYERS){
+            setPlayers(data.getIntExtra("amount", 4));
+        }
     }
 
     private void setPlayers(int playerAmount){
