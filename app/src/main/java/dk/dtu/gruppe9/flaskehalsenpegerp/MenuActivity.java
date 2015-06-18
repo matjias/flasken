@@ -11,6 +11,7 @@ import android.widget.TextView;
 public class MenuActivity extends Activity {
 
     Button decrease, increase, start;
+    final int GET_PLAYERS = 1;
     TextView playerAmount ;
     int bufferAmount = 4;
 
@@ -24,8 +25,8 @@ public class MenuActivity extends Activity {
         playerAmount = (TextView)findViewById(R.id.playerAmount);
 
         decrease = (Button)findViewById(R.id.decrease);
-        increase = (Button)findViewById(R.id.decrease);
-        start = (Button)findViewById(R.id.decrease);
+        increase = (Button)findViewById(R.id.increase);
+        start = (Button)findViewById(R.id.start);
 
 
         decrease.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +72,6 @@ public class MenuActivity extends Activity {
 
         setResult(RESULT_OK, sendBack);
         finish();
-
     }
 
 }

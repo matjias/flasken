@@ -15,7 +15,7 @@ import dk.dtu.gruppe9.flaskehalsenpegerp.R;
 public class PlayerView extends View{
 
     final double SCALE = 0.5;
-    final float IMAGE_TEXT_MARGIN = 10f, PLAYER_TEXT_SIZE = 50f, IMAGE_TEXT_SIZE = 140f;
+    final float IMAGE_TEXT_MARGIN = 10, PLAYER_TEXT_SIZE = 50, IMAGE_TEXT_SIZE = 140;
     int width, height, posX, posY;
     boolean hasCustomImage;
     Bitmap playerBitmap, scaledPlayerBitmap;
