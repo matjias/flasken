@@ -87,7 +87,7 @@ public class GameActivity extends Activity {
 
             // Calculates placement of players according to an Ellipse function
             int posX = (int)(centerX + centerX*1.5 / 2 * Math.cos((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
-            int posY = (int)(centerY + centerY*1.5 / 2 * Math.sin((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
+            int posY = (int)(centerY + centerX*1.5 / 2 * Math.sin((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
 
             players[i] = new PlayerView(getApplicationContext(), posX, posY, ""+(i+1));
             frame.addView(players[i]);
@@ -180,7 +180,11 @@ public class GameActivity extends Activity {
         bottleAnim.setDuration(2000);
         bottleAnim.setInterpolator(new DecelerateInterpolator());
 
+
         players[playerWon].setWin(false);
+
+
+
         players[playerWon].invalidate();
 
         bottleAnim.start();
