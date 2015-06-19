@@ -66,11 +66,8 @@ public class PlayerView extends View{
     }
 
     public void setWin(boolean hasWon){
-        if(hasWon){
-            textPainter.setColor(Color.GREEN);
-        }else{
-            textPainter.setColor(Color.WHITE);
-        }
+        int color = hasWon ? Color.GREEN : Color.WHITE;
+        textPainter.setColor(color);
     }
 
     @Override

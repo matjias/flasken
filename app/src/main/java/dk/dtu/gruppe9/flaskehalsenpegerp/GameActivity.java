@@ -180,11 +180,6 @@ public class GameActivity extends Activity {
         bottleAnim.setDuration(2000);
         bottleAnim.setInterpolator(new DecelerateInterpolator());
 
-
-        players[playerWon].setWin(false);
-
-
-
         players[playerWon].invalidate();
 
         bottleAnim.start();
@@ -192,7 +187,7 @@ public class GameActivity extends Activity {
         bottleAnim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-
+                clearPlayerWin();
             }
 
             @Override
@@ -223,6 +218,15 @@ public class GameActivity extends Activity {
         players[playerWon].setWin(true);
         players[playerWon].invalidate();
 
+    }
+
+    private void clearPlayerWin() {
+        // Just fixes the color problem
+        // UPDATE: Or not.. whatever just don't
+        // continuously press the screen.
+        for (PlayerView player : players) {
+            player.setWin(false);
+        }
     }
 
 
