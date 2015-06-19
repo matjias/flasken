@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.FrameLayout.*;
+import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -26,11 +29,14 @@ public class GameActivity extends Activity {
 
     FrameLayout frame;
     BottleView bottleView;
-    int centerX, centerY, playerWon;
+    Button settingButton;
+    int centerX, centerY, playerWon, previousPlayerAmount;
     final int GET_PLAYERS = 1;
+    final int GET_INFO_PLAYER = 2;
     Random rand = new Random();
     final int ROTATE_RATE_DELAY = 40;
     PlayerView[] players;
+    ObjectAnimator bottleAnim;
 
     GestureDetector gestureDetector;
 
@@ -63,25 +69,44 @@ public class GameActivity extends Activity {
         // Adds bottle to Game frame
         frame.addView(bottleView);
 
+        bottleAnim = ObjectAnimator.ofFloat(bottleView, "rotation", 0f, 0f);
+
+        openMenu();
+
+    }
+
+    private void openMenu(){
+
         Intent menuIntent = new Intent(GameActivity.this, MenuActivity.class);
         startActivityForResult(menuIntent, GET_PLAYERS);
 
-        gestures();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(resultCode == RESULT_OK && requestCode == GET_PLAYERS){
-            setPlayers(data.getIntExtra("amount", 4));
+        if(resultCode == RESULT_OK){
+            if(requestCode == GET_PLAYERS){
+                setPlayers(data.getIntExtra("amount", 4));
+
+            }
+            if(requestCode == GET_INFO_PLAYER){
+
+            }
         }
     }
 
     private void setPlayers(int playerAmount){
+        if(players != null){
+            if(players.length == playerAmount) {
+                for (int i = 0; i < players.length; i++) {
+                    frame.addView(players[i]);
+                }
+                return;
+            }
+        }
 
         players = new PlayerView[playerAmount];
-
-
 
         for(int i = 0; i < players.length; i++){
 
@@ -90,10 +115,12 @@ public class GameActivity extends Activity {
             int posY = (int)(centerY + centerX*1.5 / 2 * Math.sin((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
 
             players[i] = new PlayerView(getApplicationContext(), posX, posY, ""+(i+1));
+
             frame.addView(players[i]);
 
         }
 
+        gestures();
     }
 
     @Override
@@ -106,19 +133,59 @@ public class GameActivity extends Activity {
 
     private void gestures() {
 
+        /*
+
+        bottleView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                System.out.println("clicked " + " GAME");
+                System.out.println(v.toString());
+
+                return false;
+            }
+        });
+
+
+
+        for(PlayerView pp : players){
+            pp.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    System.out.println("clicked " + " GAME");
+                    System.out.println(v.toString());
+
+                    return false;
+                }
+            });
+        }
+
+
+        /*
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
 
-                if(bottleView.intersects(e.getX(), e.getY())){
-
+                if(bottleView.intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
                     startRotation(1080f + rand.nextFloat() * 360f);
                     return true;
                 }
+                /*
+                for(int i = 0; i < players.length; i++){
+                    if(players[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
+
+                        Intent playerIntent = new Intent(GameActivity.this, PlayerActivity.class);
+                        startActivity(playerIntent);
+
+                        return true;
+                    }
+                }
+
                 return false;
             }
-            /*
+
+
+
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
@@ -157,11 +224,25 @@ public class GameActivity extends Activity {
 
                 startRotation(tempRot);
                 return false;
-            }*/
+            }
+        });*/
+
+        settingButton = (Button) findViewById(R.id.settingButton);
+
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                for (int i = 0; i < players.length; i++) {
+                    frame.removeView(players[i]);
+                }
+                openMenu();
+
+            }
         });
 
     }
-
+/*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -169,29 +250,27 @@ public class GameActivity extends Activity {
 
         return false;
 
-    }
+    }*/
 
     private void startRotation(float rotEnd){
 
         float rotStart = bottleView.getRotation() % 360f;
 
-        ObjectAnimator bottleAnim = ObjectAnimator.ofFloat(bottleView, "rotation", rotStart, rotEnd);
+        bottleAnim = ObjectAnimator.ofFloat(bottleView, "rotation", rotStart, rotEnd);
 
         bottleAnim.setDuration(2000);
         bottleAnim.setInterpolator(new DecelerateInterpolator());
-
-        players[playerWon].invalidate();
 
         bottleAnim.start();
 
         bottleAnim.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                clearPlayerWin();
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                clearPlayerWin();
                 choosePlayerWin();
             }
 
@@ -226,6 +305,7 @@ public class GameActivity extends Activity {
         // continuously press the screen.
         for (PlayerView player : players) {
             player.setWin(false);
+            player.invalidate();
         }
     }
 

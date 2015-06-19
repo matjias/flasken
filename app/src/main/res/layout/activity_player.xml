@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/popup_margin_vertical"
+    android:layout_marginTop="@dimen/popup_margin_vertical"
+    android:layout_marginRight="@dimen/popup_margin_horizontal"
+    android:layout_marginLeft="@dimen/popup_margin_horizontal"
+    tools:context="dk.dtu.gruppe9.flaskehalsenpegerp.PlayerActivity">
+
+    <View
+        android:name="popup"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFDDDDDD"
+        android:id="@+id/menuBox">
+
+    </View>
+
+
+
+
+
+</RelativeLayout>

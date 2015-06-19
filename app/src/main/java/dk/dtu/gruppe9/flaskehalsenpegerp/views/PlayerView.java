@@ -2,14 +2,18 @@ package dk.dtu.gruppe9.flaskehalsenpegerp.views;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 import android.view.View;
 
+import dk.dtu.gruppe9.flaskehalsenpegerp.GameActivity;
+import dk.dtu.gruppe9.flaskehalsenpegerp.PlayerActivity;
 import dk.dtu.gruppe9.flaskehalsenpegerp.R;
 
 public class PlayerView extends View{
@@ -39,6 +43,21 @@ public class PlayerView extends View{
 
 
         textPainter.setColor(Color.WHITE);
+
+        this.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(v.equals(this)){
+                    System.out.println("clicked " );
+                    System.out.println(v.toString());
+                }
+
+
+                return false;
+            }
+        });
     }
 
     public void setImage(int source){
@@ -69,6 +88,14 @@ public class PlayerView extends View{
         int color = hasWon ? Color.GREEN : Color.WHITE;
         textPainter.setColor(color);
     }
+
+    public boolean intersects(float x, float y){
+
+        float radius = width/2;
+
+        return Math.pow(x - posX - radius, 2) + Math.pow(y - posY - radius, 2) <= Math.pow(radius,2);
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

@@ -41,11 +41,10 @@ public class BottleView extends View {
     }
 
     public boolean intersects(float x, float y){
-        return true;
-        //return (x < posX + scaledBottleBitmap.getWidth()/2
-          //      && x > posX - scaledBottleBitmap.getWidth()/2
-            //    && y < posY + scaledBottleBitmap.getHeight()/2
-              //  && y > posY - scaledBottleBitmap.getHeight()/2);
+        return (x < posX + scaledBottleBitmap.getHeight()/4
+                && x > posX - scaledBottleBitmap.getHeight()/4
+                && y < posY + scaledBottleBitmap.getHeight()/4
+                && y > posY - scaledBottleBitmap.getHeight()/4);
     }
 
     @Override
