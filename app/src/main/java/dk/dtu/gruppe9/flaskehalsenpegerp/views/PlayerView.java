@@ -20,7 +20,7 @@ public class PlayerView extends View{
 
     final double SCALE = 0.5;
     final float IMAGE_TEXT_MARGIN = 10, PLAYER_TEXT_SIZE = 50, IMAGE_TEXT_SIZE = 140;
-    int width, height, posX, posY;
+    int radius, posX, posY;
     boolean hasCustomImage;
     Bitmap playerBitmap, scaledPlayerBitmap;
     Paint imagePainter, textPainter;
@@ -41,32 +41,16 @@ public class PlayerView extends View{
 
         setImage(R.drawable.player_default);
 
-
         textPainter.setColor(Color.WHITE);
-
-        this.setOnTouchListener(new View.OnTouchListener(){
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                if(v.equals(this)){
-                    System.out.println("clicked " );
-                    System.out.println(v.toString());
-                }
-
-
-                return false;
-            }
-        });
     }
 
     public void setImage(int source){
 
         playerBitmap = BitmapFactory.decodeResource(getResources(), source);
 
-        setRelativeSize();
+        radius = (int) (playerBitmap.getWidth() * SCALE / 2);
 
-        scaledPlayerBitmap = Bitmap.createScaledBitmap(playerBitmap, width, height, false);
+        scaledPlayerBitmap = Bitmap.createScaledBitmap(playerBitmap, 2*radius, 2*radius, false);
 
         setCustomImage(playerBitmap);
     }
@@ -77,12 +61,7 @@ public class PlayerView extends View{
         hasCustomImage = false;
     }
 
-    private void setRelativeSize(){
 
-        width = (int) (playerBitmap.getWidth() * SCALE);
-        height = (int) (playerBitmap.getHeight() * SCALE);
-        System.out.println(width + " " + height);
-    }
 
     public void setWin(boolean hasWon){
         int color = hasWon ? Color.GREEN : Color.WHITE;
@@ -91,9 +70,8 @@ public class PlayerView extends View{
 
     public boolean intersects(float x, float y){
 
-        float radius = width/2;
 
-        return Math.pow(x - posX - radius, 2) + Math.pow(y - posY - radius, 2) <= Math.pow(radius,2);
+        return Math.pow(x - posX, 2) + Math.pow(y - posY, 2) <= Math.pow(radius,2);
     }
 
 
@@ -107,10 +85,10 @@ public class PlayerView extends View{
         if(hasCustomImage){
 
 
-            canvas.drawBitmap(scaledPlayerBitmap, posX - scaledPlayerBitmap.getWidth() / 2, posY - scaledPlayerBitmap.getHeight() / 2, imagePainter);
+            canvas.drawBitmap(scaledPlayerBitmap, posX - radius, posY - radius, imagePainter);
 
             textPainter.setTextSize(PLAYER_TEXT_SIZE);
-            canvas.drawText("player" + name, posX, posY + scaledPlayerBitmap.getHeight() / 2 + IMAGE_TEXT_MARGIN, textPainter);
+            canvas.drawText("player" + name, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
 
 
         }

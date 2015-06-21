@@ -88,7 +88,6 @@ public class GameActivity extends Activity {
         if(resultCode == RESULT_OK){
             if(requestCode == GET_PLAYERS){
                 setPlayers(data.getIntExtra("amount", 4));
-
             }
             if(requestCode == GET_INFO_PLAYER){
 
@@ -160,7 +159,7 @@ public class GameActivity extends Activity {
         }
 
 
-        /*
+        */
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
@@ -170,7 +169,7 @@ public class GameActivity extends Activity {
                     startRotation(1080f + rand.nextFloat() * 360f);
                     return true;
                 }
-                /*
+
                 for(int i = 0; i < players.length; i++){
                     if(players[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
 
@@ -185,7 +184,7 @@ public class GameActivity extends Activity {
             }
 
 
-
+/*
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
@@ -224,8 +223,9 @@ public class GameActivity extends Activity {
 
                 startRotation(tempRot);
                 return false;
-            }
-        });*/
+            }*/
+        });
+
 
         settingButton = (Button) findViewById(R.id.settingButton);
 
@@ -242,7 +242,6 @@ public class GameActivity extends Activity {
         });
 
     }
-/*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -250,7 +249,7 @@ public class GameActivity extends Activity {
 
         return false;
 
-    }*/
+    }
 
     private void startRotation(float rotEnd){
 
