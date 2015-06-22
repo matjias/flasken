@@ -1,24 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/popup_margin_vertical"
-    android:layout_marginTop="@dimen/popup_margin_vertical"
-    android:layout_marginRight="@dimen/popup_margin_horizontal"
-    android:layout_marginLeft="@dimen/popup_margin_horizontal"
-    tools:context="dk.dtu.gruppe9.flaskehalsenpegerp.PlayerActivity">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <Button
+        android:id="@+id/statistics_button"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Statistics"
+        android:textSize="30sp"
+        android:textColor="#FFFFFFFF"
+        android:layout_below="@+id/cameraButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
-    <View
-        android:name="popup"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#FFDDDDDD"
-        android:id="@+id/menuBox">
+    <Button
+        android:id="@+id/options_button"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:text="Options"
+        android:textSize="30sp"
+        android:textColor="#FFFFFFFF"
+        android:layout_alignTop="@+id/statistics_button"
+        android:layout_toRightOf="@+id/statistics_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
-    </View>
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/cameraButton"
+        android:background="@drawable/camera"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/nameEdit"
+        android:layout_toStartOf="@+id/nameEdit"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp"/>
 
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/nameEdit"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/options_button"
+        android:layout_toRightOf="@+id/statistics_button"
+        android:layout_toEndOf="@+id/statistics_button"/>
 
-
-
+    <fragment android:id="@+id/tab_fragment"
+              android:layout_weight="2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/statistics_button"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentStart="true"
+              android:layout_alignParentBottom="true"/>
 </RelativeLayout>

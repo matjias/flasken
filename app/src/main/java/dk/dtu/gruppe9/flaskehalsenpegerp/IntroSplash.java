@@ -47,7 +47,6 @@ public class IntroSplash extends Activity {
         int centerX = screenSize.x / 2;
         int centerY = screenSize.y / 2;
 
-        // Sets up the title
         splashTitle = new Splash_TitleView(getApplicationContext(), centerX, centerY - screenSize.y / 5);
         splashBottle = new Splash_BottleView(getApplicationContext(), centerX, centerY);
 
