@@ -18,6 +18,7 @@ public final class PlayerHandler {
     public static Player[] getPlayers() {
         return players;
     }
+
     public static Player getPlayer(int id){
         return players[id];
     }

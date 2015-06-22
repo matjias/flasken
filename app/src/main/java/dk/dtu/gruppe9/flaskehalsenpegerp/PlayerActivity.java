@@ -55,10 +55,10 @@ public class PlayerActivity extends FragmentActivity {
         tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
         frame = (FrameLayout) findViewById(R.id.frame);
 
-        curPlayer = PlayerHandler.getPlayer(getIntent().getIntExtra("player",0));
+        curPlayer = PlayerHandler.getPlayer(getIntent().getIntExtra("player",2));
 
         // Set default nameBox text
-        nameEdit.setText(curPlayer.getID());
+        nameEdit.setText(curPlayer.getName());
 
 
         //TODO: Tilf�j funktion til at inds�tte spillerv�rdier

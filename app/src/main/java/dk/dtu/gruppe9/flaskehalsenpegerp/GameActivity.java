@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 import dk.dtu.gruppe9.flaskehalsenpegerp.views.BottleView;
+import dk.dtu.gruppe9.flaskehalsenpegerp.views.PlayerHandler;
 import dk.dtu.gruppe9.flaskehalsenpegerp.views.PlayerView;
 
 
@@ -101,7 +102,8 @@ public class GameActivity extends Activity{
                 if(amount == 1) Toast.makeText(getApplicationContext(), "GO' STIL!", Toast.LENGTH_LONG).show();
             }
             if(requestCode == GET_INFO_PLAYER){
-
+                int tempID = data.getIntExtra("player", 2);
+                playerViews[tempID].setCustomImage(PlayerHandler.getPlayer(tempID).getImage(),true);
             }
         }
     }
@@ -140,6 +142,7 @@ public class GameActivity extends Activity{
             //playerViews[i].setCustomImage(bid, true);
 
         }
+        PlayerHandler.setPlayers(playerObjects);
 
         gestures();
     }
@@ -196,6 +199,7 @@ public class GameActivity extends Activity{
                     if(playerViews[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
 
                         Intent playerIntent = new Intent(GameActivity.this, PlayerActivity.class);
+                        playerIntent.putExtra("player", i);
                         startActivityForResult(playerIntent, GET_INFO_PLAYER);
 
                         return true;
