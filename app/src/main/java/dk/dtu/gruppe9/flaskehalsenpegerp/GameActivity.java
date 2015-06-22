@@ -102,8 +102,9 @@ public class GameActivity extends Activity{
                 if(amount == 1) Toast.makeText(getApplicationContext(), "GO' STIL!", Toast.LENGTH_LONG).show();
             }
             if(requestCode == GET_INFO_PLAYER){
-                int tempID = data.getIntExtra("player", 2);
-                playerViews[tempID].setCustomImage(PlayerHandler.getPlayer(tempID).getImage(),true);
+                int tempID = data.getIntExtra("playerBack", 0);
+                playerViews[tempID].setCustomImage(PlayerHandler.getPlayer(tempID).getImage(), true);
+                playerViews[tempID].setName(PlayerHandler.getPlayer(tempID).getName());
             }
         }
     }

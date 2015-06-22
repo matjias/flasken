@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +46,10 @@ public class PlayerView extends View{
         setImage(R.drawable.player_default);
 
         textPainter.setColor(Color.WHITE);
+    }
+
+    public void setName(String name){
+        this.fullname = name;
     }
 
     public void setImage(int source){
@@ -99,12 +105,11 @@ public class PlayerView extends View{
 
         canvas.save();
 
-        //canvas.drawCircle(posX, posY, radius - borderPainter.getStrokeWidth(), borderPainter);
-
-        canvas.drawBitmap(scaledPlayerBitmap, posX - radius, posY - radius, imagePainter);
-
         if(hasCustomImage){
 
+            //canvas.drawCircle(posX, posY, radius - borderPainter.getStrokeWidth(), borderPainter);
+
+            canvas.drawBitmap(getCroppedBitmap(scaledPlayerBitmap), posX - radius, posY - radius, imagePainter);
 
             textPainter.setTextSize(30f);
             canvas.drawText(fullname, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
@@ -113,6 +118,7 @@ public class PlayerView extends View{
         else{
 
 
+            canvas.drawBitmap(scaledPlayerBitmap, posX - radius, posY - radius, imagePainter);
             textPainter.setTextSize(IMAGE_TEXT_SIZE);
 
             Rect textBounds = new Rect();
@@ -124,6 +130,28 @@ public class PlayerView extends View{
 
         canvas.restore();
 
+    }
+
+    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();Ses
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+
+        return output;
     }
 
 
