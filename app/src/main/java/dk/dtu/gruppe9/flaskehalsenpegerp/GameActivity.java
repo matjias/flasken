@@ -28,7 +28,7 @@ public class GameActivity extends Activity {
 
     FrameLayout frame;
     BottleView bottleView;
-    Button settingButton;
+    Button settingButton, helpButton;
     int centerX, centerY, playerWon, previousPlayerAmount;
     final int GET_PLAYERS = 1;
     final int GET_INFO_PLAYER = 2;
@@ -78,6 +78,13 @@ public class GameActivity extends Activity {
 
         Intent menuIntent = new Intent(GameActivity.this, MenuActivity.class);
         startActivityForResult(menuIntent, GET_PLAYERS);
+
+    }
+
+    private void openInstructions(){
+
+        Intent instrucIntent = new Intent(GameActivity.this, InstrucActivity.class);
+        startActivity(instrucIntent);
 
     }
 
@@ -245,6 +252,15 @@ public class GameActivity extends Activity {
                 }
                 openMenu();
 
+            }
+        });
+
+        helpButton = (Button) findViewById(R.id.helpButton);
+
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openInstructions();
             }
         });
 

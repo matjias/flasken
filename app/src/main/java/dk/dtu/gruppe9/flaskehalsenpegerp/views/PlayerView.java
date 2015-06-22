@@ -81,7 +81,7 @@ public class PlayerView extends View{
     }
 
     public void setWin(boolean hasWon){
-        int color = hasWon ? Color.GREEN : Color.WHITE;
+        int color = hasWon ? Color.argb(255, 172, 211, 115) : Color.WHITE;
         textPainter.setColor(color);
     }
 
