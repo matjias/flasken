@@ -2,6 +2,13 @@ package dk.dtu.gruppe9.flaskehalsenpegerp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -26,7 +33,7 @@ public class PlayerActivity extends FragmentActivity {
     private final int REQUEST_IMAGE_CAPTURE = 100;
     private final int GET_INFO_PLAYER = 2;
     private EditText nameEdit;
-    private ImageButton cameraButton;
+    private ImageButton imageButton;
     private Button statisticsButton, optionsButton, continueButton;
     private TabFragment tabFragment;
     private FrameLayout frame;
@@ -49,7 +56,7 @@ public class PlayerActivity extends FragmentActivity {
 
 
         nameEdit = (EditText) findViewById(R.id.nameEdit);
-        cameraButton = (ImageButton) findViewById(R.id.cameraButton);
+        imageButton = (ImageButton) findViewById(R.id.cameraButton);
         statisticsButton = (Button) findViewById(R.id.statistics_button);
         optionsButton = (Button) findViewById(R.id.options_button);
         continueButton = (Button) findViewById(R.id.continue_button);
@@ -80,9 +87,11 @@ public class PlayerActivity extends FragmentActivity {
             }
         });
 
+        // Sets the image button and rounds it
+        updateImage();
 
         //Funktion til at tage billede
-        cameraButton.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i(TAG, getClass().getSimpleName() + ":entered onClick()");
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -129,6 +138,7 @@ public class PlayerActivity extends FragmentActivity {
             extras = data.getExtras();
             playerImage = (Bitmap) extras.get("data");
             curPlayer.setImage(playerImage);
+            updateImage();
         }
     }
 
@@ -164,6 +174,40 @@ public class PlayerActivity extends FragmentActivity {
         backIntent.putExtra("playerBack", curPlayer.getID());
         setResult(RESULT_OK, backIntent);
         finish();
+    }
+
+    public void updateImage() {
+        if (curPlayer.getImage() != null) {
+            imageButton.setBackground(new BitmapDrawable(getResources(), roundBitmap(curPlayer.getImage())));
+        } else {
+            imageButton.setBackground(new BitmapDrawable(getResources(),
+                    roundBitmap(BitmapFactory.decodeResource(getResources(),
+                            R.drawable.player_default_picture))));
+        }
+    }
+
+    // Tyv stjoelet fra PlayerView
+    public Bitmap roundBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+
+        // Works with all pictures, so there is a perfectly round image
+        int chooseRadius = bitmap.getWidth() < bitmap.getHeight() ? bitmap.getWidth() : bitmap.getHeight();
+
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, chooseRadius / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
     }
 
     @Override
