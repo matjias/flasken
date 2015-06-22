@@ -9,7 +9,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_game">GameActivity</string>
-    <string name="title_activity_intro_splash">IntroSplash</string>
+    <string name="title_activity_intro_splash">Spin It</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_player">PlayerActivity</string>
 
