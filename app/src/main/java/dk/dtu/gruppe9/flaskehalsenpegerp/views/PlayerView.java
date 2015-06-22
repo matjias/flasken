@@ -23,9 +23,9 @@ public class PlayerView extends View{
     int radius, posX, posY;
     boolean hasCustomImage;
     Bitmap playerBitmap, scaledPlayerBitmap;
-    Paint imagePainter, textPainter;
+    Paint imagePainter, textPainter, borderPainter;
     Context context;
-    String name;
+    String name, fullname;
 
     public PlayerView(Context context, int posX, int posY, String name){
         super(context);
@@ -38,6 +38,7 @@ public class PlayerView extends View{
 
         imagePainter = new Paint();
         textPainter = new Paint();
+        borderPainter = new Paint();
 
         setImage(R.drawable.player_default);
 
@@ -50,21 +51,37 @@ public class PlayerView extends View{
 
         radius = (int) (playerBitmap.getWidth() * SCALE / 2);
 
-        scaledPlayerBitmap = Bitmap.createScaledBitmap(playerBitmap, 2*radius, 2*radius, false);
-
-        setCustomImage(playerBitmap);
+        setCustomImage(playerBitmap, false);
     }
 
-    public void setCustomImage(Bitmap customImage){
+    public void setCustomImage(Bitmap customImage, boolean isCustom){
+
+        hasCustomImage = isCustom;
+        scaledPlayerBitmap = Bitmap.createScaledBitmap(customImage, 2*radius, 2*radius, false);
+
+        textPainter.setTextAlign(Paint.Align.CENTER);
 
 
-        hasCustomImage = false;
+
     }
 
 
+    public void setBorder(){
+
+        this.setLayerType(LAYER_TYPE_SOFTWARE, borderPainter);
+        borderPainter.setShadowLayer(radius / 6, 0, 0, Color.argb(255, 0, 0, 0));
+        borderPainter.setColor(Color.argb(0,0,0,0));
+
+        if(hasCustomImage){
+            borderPainter.setColor(Color.WHITE);
+            borderPainter.setStyle(Paint.Style.STROKE);
+            borderPainter.setStrokeWidth(10f);
+        }
+
+    }
 
     public void setWin(boolean hasWon){
-        int color = hasWon ? Color.GREEN : Color.WHITE;
+        int color = hasWon ? Color.argb(255, 172, 211, 115) : Color.WHITE;
         textPainter.setColor(color);
     }
 
@@ -80,21 +97,19 @@ public class PlayerView extends View{
 
         canvas.save();
 
-        textPainter.setTextAlign(Paint.Align.CENTER);
+        //canvas.drawCircle(posX, posY, radius - borderPainter.getStrokeWidth(), borderPainter);
+
+        canvas.drawBitmap(scaledPlayerBitmap, posX - radius, posY - radius, imagePainter);
 
         if(hasCustomImage){
 
 
-            canvas.drawBitmap(scaledPlayerBitmap, posX - radius, posY - radius, imagePainter);
-
-            textPainter.setTextSize(PLAYER_TEXT_SIZE);
-            canvas.drawText("player" + name, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
-
+            textPainter.setTextSize(30f);
+            canvas.drawText(fullname, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
 
         }
         else{
 
-            canvas.drawBitmap(scaledPlayerBitmap, posX - scaledPlayerBitmap.getWidth() / 2, posY - scaledPlayerBitmap.getHeight() / 2, imagePainter);
 
             textPainter.setTextSize(IMAGE_TEXT_SIZE);
 
@@ -104,8 +119,6 @@ public class PlayerView extends View{
             canvas.drawText(name, posX, posY - textBounds.exactCenterY(), textPainter);
 
         }
-
-
 
         canvas.restore();
 

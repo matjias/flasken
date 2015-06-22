@@ -16,8 +16,7 @@ import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.FrameLayout.*;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -29,7 +28,7 @@ public class GameActivity extends Activity {
 
     FrameLayout frame;
     BottleView bottleView;
-    Button settingButton;
+    Button settingButton, helpButton;
     int centerX, centerY, playerWon, previousPlayerAmount;
     final int GET_PLAYERS = 1;
     final int GET_INFO_PLAYER = 2;
@@ -82,12 +81,21 @@ public class GameActivity extends Activity {
 
     }
 
+    private void openInstructions(){
+
+        Intent instrucIntent = new Intent(GameActivity.this, InstrucActivity.class);
+        startActivity(instrucIntent);
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(resultCode == RESULT_OK){
             if(requestCode == GET_PLAYERS){
-                setPlayers(data.getIntExtra("amount", 4));
+                int amount = data.getIntExtra("amount", 4);
+                setPlayers(amount);
+                if(amount == 1) Toast.makeText(getApplicationContext(), "GO' STIL!", Toast.LENGTH_LONG).show();
             }
             if(requestCode == GET_INFO_PLAYER){
 
@@ -98,6 +106,11 @@ public class GameActivity extends Activity {
     private void setPlayers(int playerAmount){
         if(players != null){
             if(players.length == playerAmount) {
+                /*
+                for (int i = 0; i < players.length; i++) {
+                    frame.removeView(players[i]);
+                }
+                */
                 for (int i = 0; i < players.length; i++) {
                     frame.addView(players[i]);
                 }
@@ -164,11 +177,11 @@ public class GameActivity extends Activity {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-
+                /*
                 if(bottleView.intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
                     startRotation(1080f + rand.nextFloat() * 360f);
                     return true;
-                }
+                }*/
 
                 for(int i = 0; i < players.length; i++){
                     if(players[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
@@ -180,11 +193,12 @@ public class GameActivity extends Activity {
                     }
                 }
 
-                return false;
+                startRotation(1080f + rand.nextFloat() * 360f);
+                return true;
             }
 
 
-/*
+            /*
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
@@ -238,6 +252,15 @@ public class GameActivity extends Activity {
                 }
                 openMenu();
 
+            }
+        });
+
+        helpButton = (Button) findViewById(R.id.helpButton);
+
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openInstructions();
             }
         });
 

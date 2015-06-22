@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/popup_margin_vertical"
+    android:layout_marginTop="@dimen/popup_margin_vertical"
+    android:layout_marginRight="@dimen/popup_margin_horizontal"
+    android:layout_marginLeft="@dimen/popup_margin_horizontal"
+    tools:context="dk.dtu.gruppe9.flaskehalsenpegerp.InstrucActivity">
+
+    <View
+        android:name="popup"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/menu_bg"
+        android:id="@+id/menuBox">
+
+    </View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instruction"
+        android:id="@+id/setPlayers"
+        android:layout_marginTop="10sp"
+        android:textIsSelectable="false"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFFFF" />
+
+
+</RelativeLayout>
