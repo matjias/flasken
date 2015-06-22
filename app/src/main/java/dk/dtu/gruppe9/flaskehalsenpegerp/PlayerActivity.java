@@ -33,6 +33,7 @@ public class PlayerActivity extends Activity {
     private final ImageButton cameraButton = (ImageButton) findViewById(R.id.cameraButton);
     private final Button statisticsButton = (Button) findViewById(R.id.statistics_button);
     private final Button optionsButton = (Button) findViewById(R.id.options_button);
+    private final Button continueButton = (Button) findViewById(R.id.continueGame);
     private final TabFragment tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
     private final FrameLayout frame = (FrameLayout) findViewById(R.id.frame);
 
@@ -53,7 +54,7 @@ public class PlayerActivity extends Activity {
         nameEdit.setText("Player Name");
 
 
-        //TODO: Tilføj funktion til at indsætte spillerværdier
+        //TODO: Tilfoj funktion til at indsatte spillervardier
 
 
 
@@ -93,43 +94,58 @@ public class PlayerActivity extends Activity {
         });
 
 
-        //Button til at vælge statistics
+        //Button til at valge statistics
         statisticsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onOptionsSelection();
+                onStatisticsSelect();
             }
         });
 
 
-        //Button til at vælge options
+        //Button til at valge options
         optionsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onOptionsSelection();
+                onOptionsSelect();
+            }
+        });
+
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                continueGame();
             }
         });
     }
 
-    //Funktioner til at vælge options
-    public void onOptionsSelection() {
+    //Funktioner til at valge options
+    public void onOptionsSelect() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onOptionsSelection()");
         //Checks that current menu is not the requested menu
         if (tabFragment.getIndex() != 1) {
+            optionsButton.setBackgroundColor(getResources().getColor(R.color.popup));
+            statisticsButton.setBackgroundColor(getResources().getColor(R.color.transparent));
             // Opens the requested menu
             tabFragment.showOptions();
         }
     }
 
-    //Funktion til at vælge stats
-    public void onStatsSelection() {
+    //Funktion til at valge stats
+    public void onStatisticsSelect() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onStatsSelection()");
         //Checks that current menu is not the requested menu
         if (tabFragment.getIndex() != 0) {
+            statisticsButton.setBackgroundColor(getResources().getColor(R.color.popup));
+            optionsButton.setBackgroundColor(getResources().getColor(R.color.transparent));
             // Opens the requested menu
             tabFragment.showStats();
         }
     }
 
+    public void continueGame() {
+        // Finish up stuff here
 
+        finish();
+    }
 
     @Override
     protected void onDestroy() {
