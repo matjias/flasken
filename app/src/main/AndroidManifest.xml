@@ -37,7 +37,8 @@
         <activity
             android:name=".PlayerActivity"
             android:label="@string/title_activity_player"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent" >
         </activity>
         <activity
             android:name=".InstrucActivity"

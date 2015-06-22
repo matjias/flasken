@@ -62,15 +62,15 @@ public class PlayerView extends View{
     public void setCustomImage(Bitmap customImage, boolean isCustom){
 
         //System.out.print("image: " + customImage);
+        if (customImage != null) {
+            hasCustomImage = isCustom;
 
-        hasCustomImage = isCustom;
+            radius = (int) (customImage.getWidth() * SCALE / 2);
 
-        radius = (int) (customImage.getWidth() * SCALE / 2);
+            scaledPlayerBitmap = Bitmap.createScaledBitmap(customImage, 2 * radius, 2 * radius, false);
 
-        scaledPlayerBitmap = Bitmap.createScaledBitmap(customImage, 2*radius, 2*radius, false);
-
-        textPainter.setTextAlign(Paint.Align.CENTER);
-
+            textPainter.setTextAlign(Paint.Align.CENTER);
+        }
     }
 
 
@@ -78,7 +78,7 @@ public class PlayerView extends View{
 
         this.setLayerType(LAYER_TYPE_SOFTWARE, borderPainter);
         borderPainter.setShadowLayer(radius / 6, 0, 0, Color.argb(255, 0, 0, 0));
-        borderPainter.setColor(Color.argb(0,0,0,0));
+        borderPainter.setColor(Color.argb(0, 0, 0, 0));
 
         if(hasCustomImage){
             borderPainter.setColor(Color.WHITE);
@@ -139,7 +139,7 @@ public class PlayerView extends View{
         Canvas canvas = new Canvas(output);
 
         final int color = 0xff424242;
-        final Paint paint = new Paint();Ses
+        final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
         paint.setAntiAlias(true);

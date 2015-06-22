@@ -74,4 +74,10 @@ public class MenuActivity extends Activity {
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        startGame();
+
+        super.onBackPressed();
+    }
 }

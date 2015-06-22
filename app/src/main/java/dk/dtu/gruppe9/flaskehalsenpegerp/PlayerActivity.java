@@ -160,17 +160,16 @@ public class PlayerActivity extends FragmentActivity {
 
     public void onContinue() {
         // TODO: Finish everything here instead of onBackPressed()
-
+        Intent backIntent = new Intent();
+        backIntent.putExtra("playerBack", curPlayer.getID());
+        setResult(RESULT_OK, backIntent);
         finish();
     }
 
     @Override
     public void onBackPressed() {
 
-        Intent backIntent = new Intent();
-        backIntent.putExtra("playerBack", curPlayer.getID());
-        setResult(RESULT_OK, backIntent);
-        finish();
+        onContinue();
 
         super.onBackPressed();
     }

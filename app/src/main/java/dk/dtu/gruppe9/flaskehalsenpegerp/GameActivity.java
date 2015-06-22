@@ -105,6 +105,7 @@ public class GameActivity extends Activity{
                 int tempID = data.getIntExtra("playerBack", 0);
                 playerViews[tempID].setCustomImage(PlayerHandler.getPlayer(tempID).getImage(), true);
                 playerViews[tempID].setName(PlayerHandler.getPlayer(tempID).getName());
+                playerViews[tempID].invalidate();
             }
         }
     }
