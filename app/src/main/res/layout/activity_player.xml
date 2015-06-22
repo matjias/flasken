@@ -6,7 +6,9 @@
     android:layout_marginTop="@dimen/popup_margin_vertical"
     android:layout_marginRight="@dimen/popup_margin_horizontal"
     android:layout_marginLeft="@dimen/popup_margin_horizontal"
-    tools:context="dk.dtu.gruppe9.flaskehalsenpegerp.PlayerActivity">
+    tools:context="dk.dtu.gruppe9.flaskehalsenpegerp.PlayerActivity"
+    android:theme="@style/Transparent">
+
 
     <View
         android:name="popup"

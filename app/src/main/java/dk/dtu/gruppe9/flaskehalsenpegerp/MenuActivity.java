@@ -59,7 +59,7 @@ public class MenuActivity extends Activity {
     }
 
     public void increaseAmount(){
-        if (bufferAmount < Integer.MAX_VALUE){
+        if (bufferAmount < 12){
             bufferAmount++;
         }
         playerAmount.setText("" + bufferAmount);
