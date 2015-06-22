@@ -22,7 +22,6 @@
         <activity
             android:name=".IntroSplash"
             android:label="@string/title_activity_intro_splash"
-            android:icon="@drawable/icon"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
