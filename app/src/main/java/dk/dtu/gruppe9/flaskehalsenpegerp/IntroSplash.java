@@ -19,8 +19,7 @@ import dk.dtu.gruppe9.flaskehalsenpegerp.views.Splash_TitleView;
 
 
 public class IntroSplash extends Activity {
-    private final int INTROSPLASH_LENGTH = 50000;
-    private final int ROTATIONS = 20;
+    private final int ROTATIONS = 3;
     ObjectAnimator bottleSpin;
     Splash_BottleView splashBottle;
     Splash_TitleView splashTitle;
@@ -30,14 +29,6 @@ public class IntroSplash extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_splash);
-
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                endSplash();
-            }
-        }, INTROSPLASH_LENGTH);*/
-
 
         View view = findViewById(android.R.id.content);
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -74,9 +65,9 @@ public class IntroSplash extends Activity {
     }
 
     private void startAnimation() {
-        bottleSpin = ObjectAnimator.ofFloat(splashBottle, "rotation", 0, -360 * ROTATIONS);
+        bottleSpin = ObjectAnimator.ofFloat(splashBottle, "rotation", 0, 360 * ROTATIONS);
 
-        bottleSpin.setDuration(INTROSPLASH_LENGTH);
+        bottleSpin.setDuration(ROTATIONS * 2000);
         bottleSpin.setInterpolator(new LinearInterpolator());
 
         bottleSpin.addListener(new Animator.AnimatorListener() {
