@@ -27,8 +27,7 @@ public class PlayerActivity extends FragmentActivity {
     private final int GET_INFO_PLAYER = 2;
     private EditText nameEdit;
     private ImageButton cameraButton;
-    private Button statisticsButton;
-    private Button optionsButton;
+    private Button statisticsButton, optionsButton, continueButton;
     private TabFragment tabFragment;
     private FrameLayout frame;
     private Bundle extras;
@@ -52,6 +51,7 @@ public class PlayerActivity extends FragmentActivity {
         cameraButton = (ImageButton) findViewById(R.id.cameraButton);
         statisticsButton = (Button) findViewById(R.id.statistics_button);
         optionsButton = (Button) findViewById(R.id.options_button);
+        continueButton = (Button) findViewById(R.id.continue_button);
         tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
         frame = (FrameLayout) findViewById(R.id.frame);
 
@@ -97,7 +97,7 @@ public class PlayerActivity extends FragmentActivity {
         //Button til at v�lge statistics
         statisticsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onOptionsSelection();
+                onStatssSelect();
             }
         });
 
@@ -105,9 +105,18 @@ public class PlayerActivity extends FragmentActivity {
         //Button til at v�lge options
         optionsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onOptionsSelection();
+                onOptionsSelect();
             }
         });
+
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onContinue();
+            }
+        });
+
+        tabFragment.showStats();
     }
 
     @Override
@@ -122,23 +131,35 @@ public class PlayerActivity extends FragmentActivity {
     }
 
     //Funktioner til at v�lge options
-    public void onOptionsSelection() {
+    public void onOptionsSelect() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onOptionsSelection()");
         //Checks that current menu is not the requested menu
         if (tabFragment.getIndex() != 1) {
+            optionsButton.setBackgroundColor(getResources().getColor(R.color.popup));
+            statisticsButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+
             // Opens the requested menu
             tabFragment.showOptions();
         }
     }
 
     //Funktion til at v�lge stats
-    public void onStatsSelection() {
+    public void onStatssSelect() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onStatsSelection()");
         //Checks that current menu is not the requested menu
         if (tabFragment.getIndex() != 0) {
+            optionsButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+            statisticsButton.setBackgroundColor(getResources().getColor(R.color.popup));
+
             // Opens the requested menu
             tabFragment.showStats();
         }
+    }
+
+    public void onContinue() {
+        // TODO: Finish everything here instead of onBackPressed()
+
+        finish();
     }
 
     @Override
