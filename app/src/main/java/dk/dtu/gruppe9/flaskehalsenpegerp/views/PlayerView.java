@@ -35,6 +35,7 @@ public class PlayerView extends View{
         this.posY = posY;
 
         this.name = name;
+        fullname = "player" + name;
 
         imagePainter = new Paint();
         textPainter = new Paint();
@@ -49,19 +50,20 @@ public class PlayerView extends View{
 
         playerBitmap = BitmapFactory.decodeResource(getResources(), source);
 
-        radius = (int) (playerBitmap.getWidth() * SCALE / 2);
-
         setCustomImage(playerBitmap, false);
     }
 
     public void setCustomImage(Bitmap customImage, boolean isCustom){
 
+        //System.out.print("image: " + customImage);
+
         hasCustomImage = isCustom;
+
+        radius = (int) (customImage.getWidth() * SCALE / 2);
+
         scaledPlayerBitmap = Bitmap.createScaledBitmap(customImage, 2*radius, 2*radius, false);
 
         textPainter.setTextAlign(Paint.Align.CENTER);
-
-
 
     }
 

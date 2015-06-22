@@ -1,17 +1,12 @@
 package dk.dtu.gruppe9.flaskehalsenpegerp;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -19,22 +14,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import dk.dtu.gruppe9.flaskehalsenpegerp.views.PlayerHandler;
 
-public class PlayerActivity extends Activity {
+
+public class PlayerActivity extends FragmentActivity {
 
     private static final String TAG = "PlayerActivity";
     private final int REQUEST_IMAGE_CAPTURE = 100;
-    private final EditText nameEdit = (EditText) findViewById(R.id.nameEdit);
-    private final ImageButton cameraButton = (ImageButton) findViewById(R.id.cameraButton);
-    private final Button statisticsButton = (Button) findViewById(R.id.statistics_button);
-    private final Button optionsButton = (Button) findViewById(R.id.options_button);
-    private final TabFragment tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
-    private final FrameLayout frame = (FrameLayout) findViewById(R.id.frame);
+    private final int GET_INFO_PLAYER = 2;
+    private EditText nameEdit;
+    private ImageButton cameraButton;
+    private Button statisticsButton;
+    private Button optionsButton;
+    private TabFragment tabFragment;
+    private FrameLayout frame;
+    private Bundle extras;
+    private Player curPlayer;
 
     //Fields to be returned
     private Bitmap playerImage;
@@ -49,11 +47,21 @@ public class PlayerActivity extends Activity {
         setContentView(R.layout.activity_player);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
+        nameEdit = (EditText) findViewById(R.id.nameEdit);
+        cameraButton = (ImageButton) findViewById(R.id.cameraButton);
+        statisticsButton = (Button) findViewById(R.id.statistics_button);
+        optionsButton = (Button) findViewById(R.id.options_button);
+        tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
+        frame = (FrameLayout) findViewById(R.id.frame);
+
+        curPlayer = PlayerHandler.getPlayer(getIntent().getIntExtra("player",0));
+
         // Set default nameBox text
-        nameEdit.setText("Player Name");
+        nameEdit.setText(curPlayer.getID());
 
 
-        //TODO: Tilføj funktion til at indsætte spillerværdier
+        //TODO: Tilfï¿½j funktion til at indsï¿½tte spillervï¿½rdier
 
 
 
@@ -83,17 +91,10 @@ public class PlayerActivity extends Activity {
                 }
             }
 
-            public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                Log.i(TAG, getClass().getSimpleName() + ":entered onActivityResult()");
-                if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    playerImage = (Bitmap) extras.get("data");
-                }
-            }
+
         });
 
-
-        //Button til at vælge statistics
+        //Button til at vï¿½lge statistics
         statisticsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onOptionsSelection();
@@ -101,7 +102,7 @@ public class PlayerActivity extends Activity {
         });
 
 
-        //Button til at vælge options
+        //Button til at vï¿½lge options
         optionsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onOptionsSelection();
@@ -109,7 +110,18 @@ public class PlayerActivity extends Activity {
         });
     }
 
-    //Funktioner til at vælge options
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, getClass().getSimpleName() + ":entered onActivityResult()");
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            extras = data.getExtras();
+            playerImage = (Bitmap) extras.get("data");
+            System.out.println(playerImage);
+            curPlayer.setImage(playerImage);
+        }
+    }
+
+    //Funktioner til at vï¿½lge options
     public void onOptionsSelection() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onOptionsSelection()");
         //Checks that current menu is not the requested menu
@@ -119,7 +131,7 @@ public class PlayerActivity extends Activity {
         }
     }
 
-    //Funktion til at vælge stats
+    //Funktion til at vï¿½lge stats
     public void onStatsSelection() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onStatsSelection()");
         //Checks that current menu is not the requested menu
@@ -129,7 +141,16 @@ public class PlayerActivity extends Activity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
+        Intent backIntent = new Intent();
+        backIntent.putExtra("playerBack", curPlayer.getID());
+        setResult(RESULT_OK, backIntent);
+        finish();
+
+        super.onBackPressed();
+    }
 
     @Override
     protected void onDestroy() {

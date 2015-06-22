@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
                 android:layout_height="match_parent">
     <Button
         android:id="@+id/statistics_button"
@@ -60,5 +61,7 @@
               android:layout_below="@+id/statistics_button"
               android:layout_alignParentLeft="true"
               android:layout_alignParentStart="true"
-              android:layout_alignParentBottom="true"/>
+              android:layout_alignParentBottom="true"
+        android:name="dk.dtu.gruppe9.flaskehalsenpegerp.TabFragment"
+        tools:layout="@layout/tab_fragment" />
 </RelativeLayout>
