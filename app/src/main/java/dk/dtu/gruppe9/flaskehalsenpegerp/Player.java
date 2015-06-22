@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Player {
     // Picture
     int id, data;
-    String name = "";
+    String name;
     int numberOfDrinks = 0;
     float bac = 0f;
     Bitmap image;
@@ -35,6 +35,7 @@ public class Player {
     public int getID(){
         return id;
     }
+
 
     public String getName() {
         return name;

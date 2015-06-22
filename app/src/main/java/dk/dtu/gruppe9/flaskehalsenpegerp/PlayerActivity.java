@@ -33,6 +33,7 @@ public class PlayerActivity extends FragmentActivity {
     private FrameLayout frame;
     private Bundle extras;
     private Player curPlayer;
+    private int curPlayerID;
 
     //Fields to be returned
     private Bitmap playerImage;
@@ -55,7 +56,8 @@ public class PlayerActivity extends FragmentActivity {
         tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
         frame = (FrameLayout) findViewById(R.id.frame);
 
-        curPlayer = PlayerHandler.getPlayer(getIntent().getIntExtra("player",2));
+        curPlayerID = getIntent().getIntExtra("player", 0);
+        curPlayer = PlayerHandler.getPlayer(curPlayerID);
 
         // Set default nameBox text
         nameEdit.setText(curPlayer.getName());
@@ -71,6 +73,7 @@ public class PlayerActivity extends FragmentActivity {
             public boolean onEditorAction(TextView tv, int id, KeyEvent event) {
                 if (id == EditorInfo.IME_ACTION_DONE) {
                     playerName = (String) tv.getText();
+                    if(playerName != "")    curPlayer.setName(playerName);
                     return true;
                 }
                 return false;
@@ -116,7 +119,6 @@ public class PlayerActivity extends FragmentActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             extras = data.getExtras();
             playerImage = (Bitmap) extras.get("data");
-            System.out.println(playerImage);
             curPlayer.setImage(playerImage);
         }
     }
