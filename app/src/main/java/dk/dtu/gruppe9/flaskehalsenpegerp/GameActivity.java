@@ -5,6 +5,8 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -21,10 +23,11 @@ import android.widget.Toast;
 import java.util.Random;
 
 import dk.dtu.gruppe9.flaskehalsenpegerp.views.BottleView;
+import dk.dtu.gruppe9.flaskehalsenpegerp.views.PlayerHandler;
 import dk.dtu.gruppe9.flaskehalsenpegerp.views.PlayerView;
 
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity{
 
     FrameLayout frame;
     BottleView bottleView;
@@ -34,8 +37,10 @@ public class GameActivity extends Activity {
     final int GET_INFO_PLAYER = 2;
     Random rand = new Random();
     final int ROTATE_RATE_DELAY = 40;
-    PlayerView[] players;
+    PlayerView[] playerViews;
+    Player[] playerObjects;
     ObjectAnimator bottleAnim;
+    Bitmap playerImage;
 
     GestureDetector gestureDetector;
 
@@ -90,7 +95,6 @@ public class GameActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(resultCode == RESULT_OK){
             if(requestCode == GET_PLAYERS){
                 int amount = data.getIntExtra("amount", 4);
@@ -98,39 +102,47 @@ public class GameActivity extends Activity {
                 if(amount == 1) Toast.makeText(getApplicationContext(), "GO' STIL!", Toast.LENGTH_LONG).show();
             }
             if(requestCode == GET_INFO_PLAYER){
-
+                int tempID = data.getIntExtra("player", 2);
+                playerViews[tempID].setCustomImage(PlayerHandler.getPlayer(tempID).getImage(),true);
             }
         }
     }
 
     private void setPlayers(int playerAmount){
-        if(players != null){
-            if(players.length == playerAmount) {
+        if(playerViews != null){
+            if(playerViews.length == playerAmount) {
                 /*
-                for (int i = 0; i < players.length; i++) {
-                    frame.removeView(players[i]);
+                for (int i = 0; i < playerViews.length; i++) {
+                    frame.removeView(playerViews[i]);
                 }
                 */
-                for (int i = 0; i < players.length; i++) {
-                    frame.addView(players[i]);
+                for (int i = 0; i < playerViews.length; i++) {
+                    frame.addView(playerViews[i]);
                 }
                 return;
             }
         }
 
-        players = new PlayerView[playerAmount];
+        playerObjects = new Player[playerAmount];
+        playerViews = new PlayerView[playerAmount];
 
-        for(int i = 0; i < players.length; i++){
+        for(int i = 0; i < playerViews.length; i++){
 
-            // Calculates placement of players according to an Ellipse function
-            int posX = (int)(centerX + centerX*1.5 / 2 * Math.cos((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
-            int posY = (int)(centerY + centerX*1.5 / 2 * Math.sin((double)i/(double)players.length * 2.0 * Math.PI + Math.PI / players.length));
+            // Calculates placement of playerViews according to an Ellipse function
+            int posX = (int)(centerX + centerX*1.5 / 2 * Math.cos((double)i/(double)playerViews.length * 2.0 * Math.PI + Math.PI / playerViews.length));
+            int posY = (int)(centerY + centerX*1.5 / 2 * Math.sin((double)i/(double)playerViews.length * 2.0 * Math.PI + Math.PI / playerViews.length));
 
-            players[i] = new PlayerView(getApplicationContext(), posX, posY, ""+(i+1));
+            playerObjects[i] = new Player(i);
+            playerViews[i] = new PlayerView(getApplicationContext(), posX, posY, ""+(i+1));
 
-            frame.addView(players[i]);
+
+            frame.addView(playerViews[i]);
+
+            //Bitmap bid = BitmapFactory.decodeResource(getResources(), R.drawable.bott);
+            //playerViews[i].setCustomImage(bid, true);
 
         }
+        PlayerHandler.setPlayers(playerObjects);
 
         gestures();
     }
@@ -159,7 +171,7 @@ public class GameActivity extends Activity {
 
 
 
-        for(PlayerView pp : players){
+        for(PlayerView pp : playerViews){
             pp.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -183,11 +195,12 @@ public class GameActivity extends Activity {
                     return true;
                 }*/
 
-                for(int i = 0; i < players.length; i++){
-                    if(players[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
+                for(int i = 0; i < playerViews.length; i++){
+                    if(playerViews[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
 
                         Intent playerIntent = new Intent(GameActivity.this, PlayerActivity.class);
-                        startActivity(playerIntent);
+                        playerIntent.putExtra("player", i);
+                        startActivityForResult(playerIntent, GET_INFO_PLAYER);
 
                         return true;
                     }
@@ -247,8 +260,8 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0; i < players.length; i++) {
-                    frame.removeView(players[i]);
+                for (int i = 0; i < playerViews.length; i++) {
+                    frame.removeView(playerViews[i]);
                 }
                 openMenu();
 
@@ -313,11 +326,11 @@ public class GameActivity extends Activity {
 
         double bottleAngle = Math.toRadians(bottleView.getRotation() % 360f);
 
-        playerWon = (int)((bottleAngle/(2 * Math.PI / players.length)));
+        playerWon = (int)((bottleAngle/(2 * Math.PI / playerViews.length)));
 
         System.out.println("Vinder " + playerWon);
-        players[playerWon].setWin(true);
-        players[playerWon].invalidate();
+        playerViews[playerWon].setWin(true);
+        playerViews[playerWon].invalidate();
 
     }
 
@@ -325,7 +338,7 @@ public class GameActivity extends Activity {
         // Just fixes the color problem
         // UPDATE: Or not.. whatever just don't
         // continuously press the screen.
-        for (PlayerView player : players) {
+        for (PlayerView player : playerViews) {
             player.setWin(false);
             player.invalidate();
         }
