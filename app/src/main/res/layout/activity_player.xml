@@ -26,11 +26,11 @@
         android:id="@+id/textView"
         android:textSize="30sp"
         android:background="#808080"
-        android:layout_alignBottom="@+id/statistics_button"
-        android:layout_alignLeft="@+id/statistics_button"
-        android:layout_alignStart="@+id/statistics_button"
-        android:layout_alignRight="@+id/options_button"
-        android:layout_alignEnd="@+id/options_button" />
+        android:layout_above="@+id/tab_fragment"
+        android:layout_below="@+id/cameraButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp" />
 
     <Button
         android:id="@+id/statistics_button"
@@ -41,9 +41,11 @@
         android:textColor="#FFFFFFFF"
         android:background="@color/popup"
         android:layout_below="@+id/cameraButton"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_marginLeft="4dp" />
 
     <Button
         android:id="@+id/options_button"
@@ -56,8 +58,9 @@
         android:background="@null"
         android:layout_alignBottom="@+id/statistics_button"
         android:layout_toRightOf="@+id/statistics_button"
-        android:layout_alignRight="@+id/nameEdit"
-        android:layout_alignEnd="@+id/nameEdit" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignRight="@+id/textView"
+        android:layout_marginRight="4dp" />
 
 
     <ImageButton
@@ -65,7 +68,7 @@
         android:layout_height="100dp"
         android:id="@+id/cameraButton"
         android:background="@color/transparent"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
         android:layout_alignParentTop="true"
@@ -76,7 +79,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="50dp"
         android:layout_marginRight="20dp"
         android:inputType="textPersonName"
         android:text="Name"

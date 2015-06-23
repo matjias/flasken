@@ -169,9 +169,13 @@ public class PlayerActivity extends FragmentActivity {
     }
 
     public void onContinue() {
-        // TODO: Finish everything here instead of onBackPressed()
         Intent backIntent = new Intent();
         backIntent.putExtra("playerBack", curPlayer.getID());
+
+        String newName = nameEdit.getText().toString();
+        if (!curPlayer.getName().equals(newName))
+            curPlayer.setName(newName);
+
         setResult(RESULT_OK, backIntent);
         finish();
     }
