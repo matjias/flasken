@@ -103,6 +103,7 @@ public class Player {
     }
 
     public double updateBAC(){
+
         if(this.isMale){
             this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*1.2)
                     /(this.weight*0.58))-(0.015*(System.currentTimeMillis()-this.startTime)/3600000);
@@ -111,6 +112,11 @@ public class Player {
             this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*1.2)
                     /(this.weight*0.49))-(0.017*(System.currentTimeMillis()-this.startTime)/3600000);
         }
+
+        if(bac < 0){
+            bac = 0;
+        }
+
         return bac;
     }
 
