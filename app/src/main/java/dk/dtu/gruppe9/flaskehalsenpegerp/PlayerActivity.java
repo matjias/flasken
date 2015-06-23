@@ -192,7 +192,7 @@ public class PlayerActivity extends FragmentActivity {
 
     public void onContinue() {
         Intent backIntent = new Intent();
-        backIntent.putExtra("playerBack", curPlayer.getID());
+        backIntent.putExtra("playerBack", curPlayer.getId());
 
         String newName = nameEdit.getText().toString();
         if (!curPlayer.getName().equals(newName))
@@ -213,25 +213,20 @@ public class PlayerActivity extends FragmentActivity {
     }
 
     // Tyv stjoelet fra PlayerView
-    public Bitmap roundBitmap(Bitmap bitmap) {
+    public Bitmap roundBitmap(Bitmap inBitmap) {
+
+        Bitmap bitmap = Bitmap.createScaledBitmap(inBitmap, 200, 200, false);
+
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(output);
 
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
+        final Paint painter = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-
-        // Works with all pictures, so there is a perfectly round image
-        int chooseRadius = bitmap.getWidth() < bitmap.getHeight() ? bitmap.getWidth() : bitmap.getHeight();
-
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, chooseRadius / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, painter);
+        painter.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, painter);
 
         return output;
     }

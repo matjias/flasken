@@ -191,25 +191,23 @@ public class GameActivity extends Activity{
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                /*
-                if(bottleView.intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
+
+                if(!bottleAnim.isRunning()){
+                    for(int i = 0; i < playerViews.length; i++){
+                        if(playerViews[i].intersects(e.getX(), e.getY())){
+
+                            Intent playerIntent = new Intent(GameActivity.this, PlayerActivity.class);
+                            playerIntent.putExtra("player", i);
+                            startActivityForResult(playerIntent, GET_INFO_PLAYER);
+
+                            return true;
+                        }
+                    }
+
                     startRotation(1080f + rand.nextFloat() * 360f);
                     return true;
-                }*/
-
-                for(int i = 0; i < playerViews.length; i++){
-                    if(playerViews[i].intersects(e.getX(), e.getY()) && !bottleAnim.isRunning()){
-
-                        Intent playerIntent = new Intent(GameActivity.this, PlayerActivity.class);
-                        playerIntent.putExtra("player", i);
-                        startActivityForResult(playerIntent, GET_INFO_PLAYER);
-
-                        return true;
-                    }
                 }
-
-                startRotation(1080f + rand.nextFloat() * 360f);
-                return true;
+                return false;
             }
 
 
