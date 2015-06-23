@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Drinks"
+        android:id="@+id/drinksAmountText"
+        android:layout_marginStart="31dp"
+        android:textSize="22dp"
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/drinksAmountField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textSize="22dp"
+        android:layout_toRightOf="@+id/drinksAmountText"
+        android:layout_marginLeft="60dp"
+        android:text="0"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estimated BAC"
+        android:id="@+id/estimatedBACText"
+        android:layout_below="@+id/drinksAmountText"
+        android:layout_alignStart="@+id/drinksAmountText"
+        android:layout_marginTop="43dp"
+        android:textSize="22dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/drinksPercentageField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/estimatedBACField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/estimatedBACText"
+        android:layout_below="@+id/drinksAmountField"
+        android:layout_marginTop="43dp"
+        android:textSize="22dp"
+        android:text="0.00"
+        android:layout_alignLeft="@+id/drinksAmountField"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estimated Sober Time"
+        android:id="@+id/estimatedSoberTimeText"
+        android:layout_below="@+id/estimatedBACText"
+        android:layout_alignStart="@+id/estimatedBACText"
+        android:layout_marginTop="39dp"
+        android:textSize="22dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/estimatedSoberTimeField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:text="0s"
+        android:layout_below="@+id/estimatedSoberTimeText"
+        android:layout_alignStart="@+id/estimatedSoberTimeText"
+        android:layout_alignLeft="@+id/estimatedSoberTimeText"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

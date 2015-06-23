@@ -1,5 +1,6 @@
 package dk.dtu.gruppe9.flaskehalsenpegerp;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,11 +36,11 @@ public class PlayerActivity extends FragmentActivity {
     private EditText nameEdit;
     private ImageButton imageButton;
     private Button statisticsButton, optionsButton, continueButton;
-    private TabFragment tabFragment;
-    private FrameLayout frame;
+    private FrameLayout tabFrame;
     private Bundle extras;
     private Player curPlayer;
     private int curPlayerID;
+    private boolean statisticsSelected = true;
 
     //Fields to be returned
     private Bitmap playerImage;
@@ -60,8 +61,9 @@ public class PlayerActivity extends FragmentActivity {
         statisticsButton = (Button) findViewById(R.id.statistics_button);
         optionsButton = (Button) findViewById(R.id.options_button);
         continueButton = (Button) findViewById(R.id.continue_button);
-        tabFragment = (TabFragment) getFragmentManager().findFragmentById(R.id.tab_fragment);
-        frame = (FrameLayout) findViewById(R.id.frame);
+
+        FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+        fragTrans.add(R.id.tab_frame, new FragmentStatistics()).commit();
 
         curPlayerID = getIntent().getIntExtra("player", 0);
         curPlayer = PlayerHandler.getPlayer(curPlayerID);
@@ -80,7 +82,7 @@ public class PlayerActivity extends FragmentActivity {
             public boolean onEditorAction(TextView tv, int id, KeyEvent event) {
                 if (id == EditorInfo.IME_ACTION_DONE) {
                     playerName = (String) tv.getText();
-                    if(playerName != "")    curPlayer.setName(playerName);
+                    if(!playerName.equals(""))    curPlayer.setName(playerName);
                     return true;
                 }
                 return false;
@@ -128,7 +130,7 @@ public class PlayerActivity extends FragmentActivity {
             }
         });
 
-        tabFragment.showStats();
+        //tabFrame.showStats();
     }
 
     @Override
@@ -146,12 +148,16 @@ public class PlayerActivity extends FragmentActivity {
     public void onOptionsSelect() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onOptionsSelection()");
         //Checks that current menu is not the requested menu
-        if (tabFragment.getIndex() != 1) {
+        if (statisticsSelected) {
             optionsButton.setBackgroundColor(getResources().getColor(R.color.popup));
+            optionsButton.setTextColor(getResources().getColor(R.color.black));
             statisticsButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+            statisticsButton.setTextColor(getResources().getColor(R.color.white));
 
             // Opens the requested menu
-            tabFragment.showOptions();
+            showFragment(false);
+
+            statisticsSelected = false;
         }
     }
 
@@ -159,19 +165,39 @@ public class PlayerActivity extends FragmentActivity {
     public void onStatssSelect() {
         Log.i(TAG, getClass().getSimpleName() + ":entered onStatsSelection()");
         //Checks that current menu is not the requested menu
-        if (tabFragment.getIndex() != 0) {
+        if (!statisticsSelected) {
             optionsButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+            optionsButton.setTextColor(getResources().getColor(R.color.white));
             statisticsButton.setBackgroundColor(getResources().getColor(R.color.popup));
+            statisticsButton.setTextColor(getResources().getColor(R.color.black));
 
             // Opens the requested menu
-            tabFragment.showStats();
+            showFragment(true);
+
+            statisticsSelected = true;
+        }
+    }
+
+    private void showFragment(boolean selector) {
+        if (selector) {
+            // Show statistics
+            FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+            fragTrans.replace(R.id.tab_frame, new FragmentStatistics()).commit();
+        } else {
+            // Show options
+            FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+            fragTrans.replace(R.id.tab_frame, new FragmentOptions()).commit();
         }
     }
 
     public void onContinue() {
-        // TODO: Finish everything here instead of onBackPressed()
         Intent backIntent = new Intent();
         backIntent.putExtra("playerBack", curPlayer.getID());
+
+        String newName = nameEdit.getText().toString();
+        if (!curPlayer.getName().equals(newName))
+            curPlayer.setName(newName);
+
         setResult(RESULT_OK, backIntent);
         finish();
     }
