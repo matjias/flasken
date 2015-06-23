@@ -10,7 +10,8 @@ import java.io.Serializable;
 
 public class Player {
     // Picture
-    int id, data, weight, numberOfDrinks = 0;
+    int id, numberOfDrinks = 0;
+    float weight = 60.0f;
     String name;
     double bac = 0f, drinksPotency=1;
     long startTime;
@@ -28,7 +29,7 @@ public class Player {
         return this.id;
     }
 
-    public int getWeight(){
+    public float getWeight(){
         return this.weight;
     }
 
@@ -41,7 +42,7 @@ public class Player {
     }
 
     public double getBAC(){
-        return this.bac;
+        return updateBAC();
     }
 
     public double getDrinksPotency(){
@@ -56,7 +57,7 @@ public class Player {
        return this.image;
     }
 
-    public boolean getIsMale(){
+    public boolean isMale(){
         return this.isMale;
     }
 
@@ -64,7 +65,7 @@ public class Player {
         this.id = id;
     }
 
-    public void setWeight(int weight){
+    public void setWeight(float weight){
         this.weight = weight;
     }
 
@@ -92,7 +93,7 @@ public class Player {
         this.image=image;
     }
 
-    public void setIsMale(boolean isMale){
+    public void setMale(boolean isMale){
         this.isMale=isMale;
     }
 
@@ -101,7 +102,7 @@ public class Player {
         updateBAC();
     }
 
-    public void updateBAC(){
+    public double updateBAC(){
         if(this.isMale){
             this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*1.2)
                     /(this.weight*0.58))-(0.015*(System.currentTimeMillis()-this.startTime)/3600000);
@@ -110,10 +111,11 @@ public class Player {
             this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*1.2)
                     /(this.weight*0.49))-(0.017*(System.currentTimeMillis()-this.startTime)/3600000);
         }
+        return bac;
     }
 
     public double timeTillSober(){
-        if(this.isMale) return this.bac*0.015;
-        else return this.bac*0.017;
+        if(this.isMale) return this.bac/0.015;
+        else return this.bac/0.017;
     }
 }

@@ -33,8 +33,14 @@ public class FragmentStatistics extends Fragment {
         super.onStart();
 
         drinksAmount = (TextView) getView().findViewById(R.id.drinksAmountField);
+        drinksAmount.setText(player.getNumberOfDrinks());
+
         estimatedBAC = (TextView) getView().findViewById(R.id.estimatedBACField);
+        estimatedBAC.setText(Double.toString(player.getBAC()));
+
         estimatedSoberTime = (TextView) getView().findViewById(R.id.estimatedSoberTimeField);
+        estimatedSoberTime.setText(Double.toString(player.timeTillSober()));
+
     }
 
     public void setDrinksAmount(int number) {

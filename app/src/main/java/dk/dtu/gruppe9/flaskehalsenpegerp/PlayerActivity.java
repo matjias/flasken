@@ -187,7 +187,7 @@ public class PlayerActivity extends FragmentActivity {
 
     public void onContinue() {
         Intent backIntent = new Intent();
-        backIntent.putExtra("playerBack", curPlayer.getID());
+        backIntent.putExtra("playerBack", curPlayer.getId());
 
         String newName = nameEdit.getText().toString();
         if (!curPlayer.getName().equals(newName))

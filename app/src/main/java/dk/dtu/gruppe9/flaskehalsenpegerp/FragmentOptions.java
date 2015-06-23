@@ -36,11 +36,11 @@ public class FragmentOptions extends Fragment {
         super.onStart();
 
         gender = (Switch) getView().findViewById(R.id.playerGender);
-        //gender.setChecked(!player.isMale());
+        gender.setChecked(!player.isMale());
         gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                genderSwitch();
+                player.setMale(gender.isChecked());
             }
         });
 
@@ -52,7 +52,7 @@ public class FragmentOptions extends Fragment {
                 if (id == EditorInfo.IME_ACTION_DONE) {
                     weightBuf = Float.parseFloat(tv.getText().toString());
 
-                    if (!player.getWeight() == weightBuf)
+                    if (player.getWeight() != weightBuf)
                         player.setWeight(weightBuf);
 
                     return true;
@@ -60,13 +60,5 @@ public class FragmentOptions extends Fragment {
                 return false;
             }
         });
-    }
-
-    private void genderSwitch() {
-        if (gender.isChecked()) {
-            // Bliv en mand
-        } else {
-            // ad en pige
-        }
     }
 }
