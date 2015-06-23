@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/instrucWin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/popup_margin_vertical"
@@ -13,7 +14,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/menu_bg"
-        android:id="@+id/menuBox">
+        android:id="@+id/menuBox"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
     </View>
 
@@ -22,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Instructions"
         android:id="@+id/setPlayers"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="18sp"
         android:textIsSelectable="false"
         android:textSize="28sp"
         android:textColor="#FFFFFFFF"
@@ -34,11 +37,12 @@
         android:layout_height="wrap_content"
         android:text="Tab on the screen to make teh bottle spin."
         android:id="@+id/textView2"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="18sp"
         android:textColor="#FF000000"
         android:layout_below="@+id/setPlayers"
         android:layout_alignStart="@+id/setPlayers"
-        android:paddingEnd="20sp" />
+        android:paddingEnd="20sp"
+        android:textSize="12sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,9 +50,10 @@
         android:text="Tap on the circles to access player settings."
         android:id="@+id/textView3"
         android:layout_alignStart="@+id/textView2"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="18sp"
         android:textColor="#FF000000"
-        android:layout_below="@+id/textView2" />
+        android:layout_below="@+id/textView2"
+        android:textSize="12sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -71,8 +76,9 @@
         android:id="@+id/textView4"
         android:layout_below="@+id/textView3"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_marginTop="20sp"
-        android:textColor="#FF000000" />
+        android:layout_marginTop="18sp"
+        android:textColor="#FF000000"
+        android:textSize="12sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -97,7 +103,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView4"
-        android:layout_marginTop="30sp" />
+        android:layout_marginTop="28sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -119,8 +125,9 @@
         android:id="@+id/textView6"
         android:layout_below="@+id/textView5"
         android:layout_toEndOf="@+id/imageView2"
-        android:layout_marginTop="20dp"
-        android:textColor="#FF000000" />
+        android:layout_marginTop="16dp"
+        android:textColor="#FF000000"
+        android:textSize="12sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -140,11 +147,12 @@
         android:text="Switch between seing your stats and updating profile info by clicking on &quot;Statistics&quot; and &quot;Options&quot;. "
         android:id="@+id/textView7"
         android:textColor="#FF000000"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24sp"
         android:layout_below="@+id/textView6"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40sp"
-        android:layout_marginRight="40dp" />
+        android:layout_marginRight="40dp"
+        android:textSize="12sp" />
 
 
 </RelativeLayout>

@@ -47,7 +47,6 @@ public class PlayerView extends View{
         textPainter = new Paint();
         borderPainter = new Paint();
 
-        //setImage(R.drawable.player_default);
 
         textPainter.setColor(Color.WHITE);
         textPainter.setTextAlign(Paint.Align.CENTER);
@@ -61,18 +60,9 @@ public class PlayerView extends View{
         this.fullname = name;
     }
 
-/*
-    public void setImage(int source){
-
-        playerBitmap = BitmapFactory.decodeResource(getResources(), source);
-
-        setCustomImage(playerBitmap, false);
-    }
-*/
 
     public void setCustomImage(Bitmap customImage, boolean isCustom){
 
-        //System.out.print("image: " + customImage);
         if (customImage != null) {
             hasCustomImage = isCustom;
 
@@ -92,10 +82,8 @@ public class PlayerView extends View{
     public void setWin(boolean hasWon){
         this.hasWon = hasWon;
         int color = hasWon ? Color.argb(255, 172, 211, 115) : Color.WHITE;
-        //textPainter.setColor(color);
         borderPainter.setColor(color);
 
-        //borderPainter.setShadowLayer(radius / 6, 0, 0, Color.argb(255, 0, 0, 0));
     }
 
     public boolean intersects(float x, float y){
@@ -116,8 +104,6 @@ public class PlayerView extends View{
 
             canvas.drawCircle(posX, posY, radius, borderPainter);
 
-            //textPainter.setTextSize(PLAYER_TEXT_SIZE);
-            //canvas.drawText(fullname, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
 
         }
         else{
@@ -140,6 +126,7 @@ public class PlayerView extends View{
 
     }
 
+    // http://stackoverflow.com/questions/11932805/cropping-circular-area-from-bitmap-in-android
     public Bitmap roundBitmap(Bitmap bitmap) {
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -149,13 +136,9 @@ public class PlayerView extends View{
         final Paint painter = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
-        canvas.drawARGB(0, 0, 0, 0);
-        painter.setColor(Color.argb(255, 66, 66, 66));
-
         canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, painter);
         painter.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, painter);
-
 
         return output;
     }
