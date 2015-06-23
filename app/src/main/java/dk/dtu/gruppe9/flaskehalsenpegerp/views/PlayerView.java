@@ -8,9 +8,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,10 +22,10 @@ import dk.dtu.gruppe9.flaskehalsenpegerp.R;
 
 public class PlayerView extends View{
 
-    final double SCALE = 0.5;
+    final double SCALE = 1;
     final float IMAGE_TEXT_MARGIN = 10, PLAYER_TEXT_SIZE = 50, IMAGE_TEXT_SIZE = 140;
     int radius, posX, posY;
-    boolean hasCustomImage;
+    boolean hasCustomImage, hasWon = false;
     Bitmap playerBitmap, scaledPlayerBitmap;
     Paint imagePainter, textPainter, borderPainter;
     Context context;
@@ -36,6 +38,8 @@ public class PlayerView extends View{
         this.posX = posX;
         this.posY = posY;
 
+        radius = 100;
+
         this.name = name;
         fullname = "player" + name;
 
@@ -43,21 +47,28 @@ public class PlayerView extends View{
         textPainter = new Paint();
         borderPainter = new Paint();
 
-        setImage(R.drawable.player_default);
+        //setImage(R.drawable.player_default);
 
         textPainter.setColor(Color.WHITE);
+        textPainter.setTextAlign(Paint.Align.CENTER);
+        imagePainter.setColor(Color.argb(255, 80, 80, 80));
+        borderPainter.setColor(Color.WHITE);
+
+        setBorder();
     }
 
     public void setName(String name){
         this.fullname = name;
     }
 
+/*
     public void setImage(int source){
 
         playerBitmap = BitmapFactory.decodeResource(getResources(), source);
 
         setCustomImage(playerBitmap, false);
     }
+*/
 
     public void setCustomImage(Bitmap customImage, boolean isCustom){
 
@@ -65,32 +76,26 @@ public class PlayerView extends View{
         if (customImage != null) {
             hasCustomImage = isCustom;
 
-            radius = (int) (customImage.getWidth() * SCALE / 2);
-
             scaledPlayerBitmap = Bitmap.createScaledBitmap(customImage, 2 * radius, 2 * radius, false);
-
-            textPainter.setTextAlign(Paint.Align.CENTER);
         }
     }
-
 
     public void setBorder(){
 
         this.setLayerType(LAYER_TYPE_SOFTWARE, borderPainter);
-        borderPainter.setShadowLayer(radius / 6, 0, 0, Color.argb(255, 0, 0, 0));
-        borderPainter.setColor(Color.argb(0, 0, 0, 0));
 
-        if(hasCustomImage){
-            borderPainter.setColor(Color.WHITE);
-            borderPainter.setStyle(Paint.Style.STROKE);
-            borderPainter.setStrokeWidth(10f);
-        }
+        borderPainter.setStyle(Paint.Style.STROKE);
+        borderPainter.setStrokeWidth(10f);
 
     }
 
     public void setWin(boolean hasWon){
+        this.hasWon = hasWon;
         int color = hasWon ? Color.argb(255, 172, 211, 115) : Color.WHITE;
-        textPainter.setColor(color);
+        //textPainter.setColor(color);
+        borderPainter.setColor(color);
+
+        //borderPainter.setShadowLayer(radius / 6, 0, 0, Color.argb(255, 0, 0, 0));
     }
 
     public boolean intersects(float x, float y){
@@ -107,18 +112,18 @@ public class PlayerView extends View{
 
         if(hasCustomImage){
 
-            //canvas.drawCircle(posX, posY, radius - borderPainter.getStrokeWidth(), borderPainter);
+            canvas.drawBitmap(roundBitmap(scaledPlayerBitmap), posX - radius, posY - radius, imagePainter);
 
-            canvas.drawBitmap(getCroppedBitmap(scaledPlayerBitmap), posX - radius, posY - radius, imagePainter);
+            canvas.drawCircle(posX, posY, radius, borderPainter);
 
-            textPainter.setTextSize(30f);
-            canvas.drawText(fullname, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
+            //textPainter.setTextSize(PLAYER_TEXT_SIZE);
+            //canvas.drawText(fullname, posX, posY + radius + IMAGE_TEXT_MARGIN, textPainter);
 
         }
         else{
 
+            canvas.drawCircle(posX, posY, radius, imagePainter);
 
-            canvas.drawBitmap(scaledPlayerBitmap, posX - radius, posY - radius, imagePainter);
             textPainter.setTextSize(IMAGE_TEXT_SIZE);
 
             Rect textBounds = new Rect();
@@ -128,27 +133,28 @@ public class PlayerView extends View{
 
         }
 
+
+        if(hasWon) canvas.drawCircle(posX, posY, radius, borderPainter);
+
         canvas.restore();
 
     }
 
-    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+    public Bitmap roundBitmap(Bitmap bitmap) {
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(output);
 
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
+        final Paint painter = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
-        paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
+        painter.setColor(Color.argb(255, 66, 66, 66));
 
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, painter);
+        painter.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, painter);
 
 
         return output;
