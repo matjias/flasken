@@ -5,8 +5,49 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView2"
+        android:text="Gender"
+        android:id="@+id/playerGenderText"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="50dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Male"
+        android:id="@+id/playerGender"
+        android:layout_alignBottom="@+id/playerGenderText"
+        android:layout_toEndOf="@+id/playerGenderText"
+        android:layout_marginStart="32dp"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:showText="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weight"
+        android:id="@+id/playerWeightText"
+        android:layout_below="@+id/playerGenderText"
+        android:layout_alignStart="@+id/playerGenderText"
+        android:layout_marginTop="35dp"
+        android:textSize="22dp"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/playerWeight"
+        android:layout_alignTop="@+id/playerWeightText"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/playerWeightText"
+        android:layout_marginLeft="32dp"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:text="60.0" />
 </RelativeLayout>

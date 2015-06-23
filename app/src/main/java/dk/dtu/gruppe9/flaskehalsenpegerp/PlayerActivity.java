@@ -62,18 +62,17 @@ public class PlayerActivity extends FragmentActivity {
         optionsButton = (Button) findViewById(R.id.options_button);
         continueButton = (Button) findViewById(R.id.continue_button);
 
-        FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
-        fragTrans.add(R.id.tab_frame, new FragmentStatistics()).commit();
-
         curPlayerID = getIntent().getIntExtra("player", 0);
         curPlayer = PlayerHandler.getPlayer(curPlayerID);
+
+        FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
+        fragTrans.add(R.id.tab_frame, new FragmentStatistics().setPlayer(curPlayer)).commit();
 
         // Set default nameBox text
         nameEdit.setText(curPlayer.getName());
 
 
         //TODO: Tilf�j funktion til at inds�tte spillerv�rdier
-
 
 
         //Funktion til at gemme spillernavn
@@ -129,8 +128,6 @@ public class PlayerActivity extends FragmentActivity {
                 onContinue();
             }
         });
-
-        //tabFrame.showStats();
     }
 
     @Override
@@ -156,7 +153,6 @@ public class PlayerActivity extends FragmentActivity {
 
             // Opens the requested menu
             showFragment(false);
-
             statisticsSelected = false;
         }
     }
@@ -173,7 +169,6 @@ public class PlayerActivity extends FragmentActivity {
 
             // Opens the requested menu
             showFragment(true);
-
             statisticsSelected = true;
         }
     }
@@ -182,11 +177,11 @@ public class PlayerActivity extends FragmentActivity {
         if (selector) {
             // Show statistics
             FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
-            fragTrans.replace(R.id.tab_frame, new FragmentStatistics()).commit();
+            fragTrans.replace(R.id.tab_frame, new FragmentStatistics().setPlayer(curPlayer)).commit();
         } else {
             // Show options
             FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
-            fragTrans.replace(R.id.tab_frame, new FragmentOptions()).commit();
+            fragTrans.replace(R.id.tab_frame, new FragmentOptions().setPlayer(curPlayer)).commit();
         }
     }
 
