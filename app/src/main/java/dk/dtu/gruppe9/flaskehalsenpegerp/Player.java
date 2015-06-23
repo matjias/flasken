@@ -13,7 +13,7 @@ public class Player {
     int id, numberOfDrinks = 0;
     float weight = 60.0f;
     String name;
-    double bac = 0f, drinksPotency = 0.15;
+    double bac = 0f, drinksPotency = 0.1;
     long startTime;
     Bitmap image;
     boolean isMale = true;
@@ -105,12 +105,12 @@ public class Player {
     public double updateBAC(){
 
         if(this.isMale){
-            this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*1.2)
-                    /(this.weight*0.58))-(0.015*(System.currentTimeMillis()-this.startTime)/3600000);
+            this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*12)
+                    /(this.weight*0.58))-(0.15*(System.currentTimeMillis()-this.startTime)/3600000);
         }
         else{
-            this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*1.2)
-                    /(this.weight*0.49))-(0.017*(System.currentTimeMillis()-this.startTime)/3600000);
+            this.bac=((0.806*(this.numberOfDrinks*this.drinksPotency)*12)
+                    /(this.weight*0.49))-(0.17*(System.currentTimeMillis()-this.startTime)/3600000);
         }
 
         if(bac < 0){
@@ -121,7 +121,7 @@ public class Player {
     }
 
     public double timeTillSober(){
-        if(this.isMale) return this.bac/0.015;
-        else return this.bac/0.017;
+        if(this.isMale) return this.bac/0.15;
+        else return this.bac/0.17;
     }
 }

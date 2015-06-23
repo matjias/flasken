@@ -33,28 +33,31 @@ public class FragmentStatistics extends Fragment {
         super.onStart();
 
         drinksAmount = (TextView) getView().findViewById(R.id.drinksAmountField);
-        drinksAmount.setText(Integer.toString(player.getNumberOfDrinks()));
+        setDrinksAmount(player.getNumberOfDrinks());
 
         estimatedBAC = (TextView) getView().findViewById(R.id.estimatedBACField);
-        estimatedBAC.setText(Double.toString(player.getBAC()));
+        setEstimatedBAC(player.getBAC());
 
         estimatedSoberTime = (TextView) getView().findViewById(R.id.estimatedSoberTimeField);
-        estimatedSoberTime.setText(Double.toString(player.timeTillSober()));
-
+        setEstimatedSoberTime(player.timeTillSober());
     }
 
     public void setDrinksAmount(int number) {
         drinksAmount.setText("" + number);
     }
 
-    public void setEstimatedBAC(float number) {
-        estimatedBAC.setText("" + number);
+    public void setEstimatedBAC(double number) {
+        // Rounds the number to 2 decimal places
+        Double buf = (double) Math.round(number * 1000) / 1000;
+        estimatedBAC.setText("" + buf);
     }
 
-    public void setEstimatedSoberTime(long number) {
+    public void setEstimatedSoberTime(double number) {
         // Should display in the variant X days X hours X minutes X seconds
         // or maybe just Xd Xh Xm Xs
         String display = DateFormat.getDateTimeInstance().format(new Date());
-        estimatedSoberTime.setText(display);
+
+        Double buf = (double) Math.round(number * 1000) / 1000;
+        estimatedSoberTime.setText("" + buf);
     }
 }

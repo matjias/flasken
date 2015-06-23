@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -70,7 +71,14 @@ public class PlayerActivity extends FragmentActivity {
 
         // Set default nameBox text
         nameEdit.setText(curPlayer.getName());
-
+        nameEdit.setFocusable(false);
+        nameEdit.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                nameEdit.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
 
         //TODO: Tilf�j funktion til at inds�tte spillerv�rdier
 
@@ -79,11 +87,13 @@ public class PlayerActivity extends FragmentActivity {
         nameEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView tv, int id, KeyEvent event) {
-                if (id == EditorInfo.IME_ACTION_DONE) {
-                    playerName = (String) tv.getText();
-                    if(!playerName.equals(""))    curPlayer.setName(playerName);
-                    return true;
-                }
+                playerName = tv.getText().toString();
+
+                if(!playerName.equals(""))
+                    curPlayer.setName(playerName);
+
+                nameEdit.setFocusable(false);
+
                 return false;
             }
         });

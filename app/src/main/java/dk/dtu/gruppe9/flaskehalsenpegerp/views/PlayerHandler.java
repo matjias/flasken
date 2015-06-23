@@ -23,4 +23,8 @@ public final class PlayerHandler {
         return players[id];
     }
 
+    public static void setPlayer(int id, Player player) {
+        players[id] = player;
+    }
+
 }
