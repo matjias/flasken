@@ -330,6 +330,7 @@ public class GameActivity extends Activity{
 
         System.out.println("Vinder " + playerWon);
         playerViews[playerWon].setWin(true);
+        PlayerHandler.getPlayer(playerWon).playerDrink();
         playerViews[playerWon].invalidate();
 
     }

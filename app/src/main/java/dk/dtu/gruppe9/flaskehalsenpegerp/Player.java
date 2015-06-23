@@ -12,7 +12,7 @@ public class Player {
     // Picture
     int id, data, weight, numberOfDrinks = 0;
     String name;
-    double bac = 0f, drinksPotency=1;
+    double bac = 0f, drinksPotency = 0.15;
     long startTime;
     Bitmap image;
     boolean isMale = true;
