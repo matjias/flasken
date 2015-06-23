@@ -142,6 +142,4 @@ public class PlayerView extends View{
 
         return output;
     }
-
-
 }
